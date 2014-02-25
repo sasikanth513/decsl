@@ -1,0 +1,51 @@
+<template name="quespage">
+	<head>
+
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+
+	  <title>All polls</title>
+	</head>
+
+	<body>
+		
+     				
+		{{> display_ques}}
+	</body>
+
+</template>
+
+
+
+<template name="display_ques">
+		{{#each details}}
+			{{uniqid}}
+			<p class="label-design table-pop-more" name="{{uniq_id}}"><img src="\images\FAQ.jpg"> {{question}}</p>
+			<div class="comment-more">
+			Comment:<br />
+			  <textarea class="field span6" rows="3" id="comment_text" placeholder="post your link...">
+		
+					</textarea><br>
+			<button type="submit" value='Submit' class="btn btn-primary clik-eve">Submit</button>	<br>
+			</div>
+			<div class="cmt-more">
+				<ul>					
+					{{#each all_comments}}
+					<div id="timedrpact" class="tip left cmt-more">
+					<p><b>{{uname}} Suggest's</b>
+					<br>{{cmt_text}}	</p>
+					{{vCount}} <input type="image" class="add-up" src="/images/up.jpg" name="upicon">
+					</div><br>
+					
+
+					{{/each}}
+					<br>
+					
+				</ul>
+			</div>	
+
+		<!--	{{{pagination}}} -->
+		{{/each}}
+
+</template>
+
+

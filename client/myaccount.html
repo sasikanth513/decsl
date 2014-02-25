@@ -1,0 +1,34 @@
+<template name="myaccount">
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+<h3 class="label-design-big" align=left>My Polls</h3><br>
+	<div class="cmt-avg">
+	{{> my_polls}}
+	</div>
+<h3 class="label-design-big" align=left>My Polls</h3><br>
+	<div class="cmt-avg">
+	{{> my_ques}}
+	</div>
+
+</template>
+
+<template name="my_polls">
+<table>
+	{{#each pollscoll}}
+	<tr><td>
+	 	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</a></td>
+	 	<td><img  class="deletePoll" src="\images\delete.png" width="16px" height="16px">
+	</td>></tr>
+	{{/each}}
+</table>
+</template>
+
+<template name="my_ques">
+<table>
+	{{#each quescoll}}
+	<tr><td>	
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a></td>
+		<td><img class="deleteQues" src="\images\delete.png" width="16px" height="16px"></td>
+	</tr>
+	{{/each}}
+</table>
+</template>

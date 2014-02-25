@@ -1,0 +1,427 @@
+/* CSS declarations go here */
+
+input#search {
+
+}
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    max-height: 300px;
+    width: 70px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+.ui-helper-hidden-accessible
+{
+	max-width:0px;
+}
+.thumbwidth{
+max-width: 0px;
+
+}
+input#autocomplete {
+    background: url(search-white.png) no-repeat 10px 6px #fcfcfc;
+    border: 1px solid #d1d1d1;
+    font: bold 12px Oswald, sans-serif;
+    
+    width: 35%;
+    padding: 6px 15px 6px 35px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -webkit-transition: all 0.7s ease 0s;
+    -moz-transition: all 0.7s ease 0s;
+    -o-transition: all 0.7s ease 0s;
+    transition: all 0.7s ease 0s;
+    }
+
+input#question
+{
+   background: url(search-white.png) no-repeat 10px 6px #fcfcfc;
+    border: 1px solid #d1d1d1;
+    font: bold 12px Oswald, sans-serif;
+    
+    width: 30%;
+     
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -webkit-transition: all 0.7s ease 0s;
+    -moz-transition: all 0.7s ease 0s;
+    -o-transition: all 0.7s ease 0s;
+    transition: all 0.7s ease 0s;
+}
+
+input#search-btn
+{
+	cursor:pointer; 
+	font-size:1.5em;
+	font-family:Oswald, sans-serif; /*Oswald is available from http://www.google.com/webfonts/specimen/Oswald*/
+	letter-spacing:.1em;
+	padding:5px 25px; /*add some padding to the inside of the button*/
+	background:#35b128; /*the colour of the button*/
+	border:1px solid #33842a; /*required or the default border for the browser will appear*/
+	/*give the button curved corners, alter the size as required*/
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	/*give the button a drop shadow*/
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	box-shadow: 0 0 4px rgba(0,0,0, .75);
+	/*style the text*/
+	color:#f3f3f3;
+	font-size:1.1em;
+}
+
+
+/***NOW STYLE THE BUTTON'S HOVER AND FOCUS STATES***/
+
+input#search-btn:hover, input#search-btn:focus
+{
+		background-color :#399630; /*make the background a little darker*/
+		/*reduce the drop shadow size to give a pushed button effect*/
+		-webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+		-moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+		box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
+
+
+/***FIRST STYLE THE BUTTON***/
+
+.bigbutton
+{
+	width:200px;
+	background: #3e9cbf; /*the colour of the button*/
+	padding: 8px 14px 10px; /*apply some padding inside the button*/
+	border:1px solid #3e9cbf; /*required or the default border for the browser will appear*/
+	cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+	/*style the text*/
+	font-size:1.5em;
+	font-family:Oswald, sans-serif; /*Oswald is available from http://www.google.com/webfonts/specimen/Oswald*/
+	letter-spacing:.1em;
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3); /*give the text a shadow - doesn't appear in Opera 12.02 or earlier*/
+	color: #fff;
+	/*give the corners a small curve*/
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.smallbutton
+{
+	background: #3e9cbf; /*the colour of the button*/
+	border:1px solid #3e9cbf; /*required or the default border for the browser will appear*/
+	cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+	/*style the text*/
+	font-size:1.5em;
+	font-family:Oswald, sans-serif; /*Oswald is available from http://www.google.com/webfonts/specimen/Oswald*/
+	letter-spacing:.1em;
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3); /*give the text a shadow - doesn't appear in Opera 12.02 or earlier*/
+	color: #fff;
+	/*give the corners a small curve*/
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+
+/***SET THE BUTTON'S HOVER AND FOCUS STATES***/
+input#bigbutton:hover, input#bigbutton:focus
+{
+
+	color:#dfe7ea;
+	/*reduce the size of the shadow to give a pushed effect*/
+	-webkit-box-shadow: inset 0px 1px 0px #3e9cbf, 0px 2px 0px 0px #205c73, 0px 2px 5px #999;
+	-moz-box-shadow: inset 0px 1px 0px #3e9cbf, 0px 2px 0px 0px #205c73, 0px 2px 5px #999;
+	box-shadow: inset 0px 1px 0px #3e9cbf, 0px 2px 0px 0px #205c73, 0px 2px 5px #999;
+}
+
+
+input#textfield
+ {
+    background: url(search-white.png) no-repeat 10px 6px #fcfcfc;
+    border: 1px solid #d1d1d1;
+    font: bold 12px Oswald, sans-serif;
+    
+    width: 35%;
+    padding: 6px 15px 6px 35px;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    
+    }
+
+
+.poll-options
+{
+padding-left:3%;
+padding-right:3%;
+	
+}
+
+.warning
+{
+	font: 12px Oswald, sans-serif;
+	text-color:#ff0000;
+	color: #ff0000;
+}
+
+.label-design
+{
+	font: bold 18px Oswald, sans-serif;
+	text-color:#35b128;
+	color:#3e9cbf;
+}
+.label-design-big
+{
+	font: bold Oswald, sans-serif;
+	text-color:#35b128;
+	color:#3e9cbf;
+}
+.label-design-green
+{
+	font: bold 18px Oswald, sans-serif;
+	text-color:#35b128;
+	color:#35b128;
+}
+.table-pop
+{
+padding-left:3%;
+}
+
+.table-pop-more
+{
+padding-left:11%;
+}
+.comment-more
+{
+padding-left:18%;
+}
+.pad-top
+{
+	padding-top:1%;
+}
+
+.float-near
+{
+	padding-left:2%;
+}
+.cmt-avg
+{
+padding-left:20px;
+}
+
+.cmt-more
+{
+	padding-left:22%;
+	margin-top:10px;
+}
+
+input[type=radio].css-checkbox {
+							display:none;
+						}
+
+						input[type=radio].css-checkbox + label.css-label {
+							padding-left:24px;
+							height:19px; 
+							display:inline-block;
+							line-height:19px;
+							background-repeat:no-repeat;
+							background-position: 0 0;
+							font-size:19px;
+							vertical-align:middle;
+							cursor:pointer;
+
+						}
+
+						input[type=radio].css-checkbox:checked + label.css-label {
+							background-position: 0 -19px;
+						}
+						label.css-label {
+				background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_353a617ca21d6630433b397442362d96.png);
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+#menuitems {
+  text-align: justify;
+}
+
+#menuitems * {
+  display: inline;
+}
+
+#menuitems li {
+  display: inline-block;
+}
+
+#menuitems span {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 0;
+}
+
+.boxing {
+  border: 2px solid black ;
+}
+
+.divider{
+    width:40px;
+    height:auto;
+    display:inline-block;
+}
+
+
+.bubble img {
+    float:left;
+    width:70px;
+    height:70px;
+    border:3px solid #ffffff;
+    border-radius:10px
+                  }
+.bubble-content {
+   position:relative;
+   float:left;
+   margin-left:12px;
+   width:400px;
+   padding:0px 20px;
+   border-radius:10px;
+   background-color:#FFFFFF;
+   box-shadow:1px 1px 5px rgba(0,0,0,.2);
+   }
+.bubble {
+     margin-top:20px;
+     }
+.point {
+   border-top:10px solid transparent;
+   border-bottom:10px solid transparent;
+          border-right: 12px solid #FFF;
+   position:absolute;
+   left:-10px;
+   top:12px;
+   } 
+
+.clearfix:after {
+      visibility:hidden;
+      display:block;
+      font-size:0;
+      content: ".";
+      clear:both;
+      height:0;
+      }
+.clearfix {
+      display: inline-block;
+      }
+* html .clearfix {
+         height: 1%;
+         }
+
+.productpage
+{
+	padding-right: 25%;
+	padding-left: 5%;
+}
+
+
+.comments { width: 65%; }
+
+
+/***Comment Box***/
+
+
+.left {
+		width: 920px !important; 
+		padding-bottom: 40px;
+		min-height: auto !important;
+		padding-right: 0;
+		float: left;
+	}
+
+	.left > p:first-of-type { 
+ 
+		font-style: italic; 
+		padding: 5px 10px; 
+		margin-bottom: 10px;
+	}
+
+	.tip {
+		background: #fff;
+		border: 1px solid #ccc;
+		padding: 10px;
+		font-size: 1.2em;
+		position: relative;
+		/*width: 100px;*/
+	}
+
+	.tip:before {
+		position: absolute;
+		top: -14px;
+		left: 98px;
+		display: inline-block;
+		border-right: 14px solid transparent;
+		border-bottom: 14px solid #fff;
+		border-left: 14px solid transparent;
+		border-bottom-color: rgba(0, 0, 0, 0.2);
+		content: '';
+	}
+
+	.tip:after {
+		position: absolute;
+		top: -12px;
+		left: 99px;
+		display: inline-block;
+		border-right: 12px solid transparent;
+		border-bottom: 12px solid #fff;
+		border-left: 12px solid transparent;
+		content: '';
+	}
+
+	.tip.left:before {
+		border-top: 14px solid transparent;
+		border-right: 14px solid #fff;
+		border-bottom: 14px solid transparent;
+		border-right-color: rgba(0, 0, 0, 0.2);
+		left: -28px;
+		top: 20px;
+	}
+
+	.tip.left:after {
+		border-top: 12px solid transparent;
+		border-right: 12px solid #fff;
+		border-bottom: 12px solid transparent;
+		left: -24px;
+		top: 22px;
+	}
+	
+	
+.div1{
+ float: left;
+ width: 40%;
+ margin-left: 5%;
+ min-height: 500px
+}
+.div2{
+ float: left;
+ width: 25%;
+ min-height: 500px
+}
+.div3{
+ float: left;
+ margin-right: 5%;
+ min-height: 500px
+ width: 25%;
+}
+
+
+
+

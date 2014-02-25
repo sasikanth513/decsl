@@ -1,0 +1,1 @@
+Pages = Meteor.Paginate("Polls_Coll",router="iron-router");

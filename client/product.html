@@ -1,0 +1,57 @@
+<template name="product">
+	<head>
+
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+
+	  <title>Product Description</title>
+	</head>
+
+	<body>
+		{{> display_product}}
+	</body>
+
+</template>
+
+<template name="display_product">
+<!-- Getting id from the url and serach for the product in api and setting results as session variable -->
+{{detail}}
+<!-- Get the session variable and returning results -->
+{{#each product.skimlinksProductAPI.products}}
+<div class="productpage">
+	<table width="100%">
+		<tr>
+			<td width="30%">
+			<!-- displaying title,merchant,currency,price and other details to the user -->
+			<img src={{imageUrl}} onError="this.src='\images\rubiks.jpg';"/></td>
+			<td width="70%">
+				<table width="100%">
+					<tr>
+						<td><b>Title:</b> {{title}}</td>
+					</tr>
+					<tr>
+						<td><b>Merchant:</b> {{merchant}}</td>
+					</tr>
+					<tr>
+						<td><b>Price:</b>   {{currency}} {{price}}</td>
+					</tr>
+					<tr>
+						<td><b>Description:</b><P>  {{description}}</p></td>
+					</tr>
+					<tr>
+						<td><b>Manufacturer:</b> {{manufacturer}}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+  </table>
+  
+</div>
+<div class="buybutton" >
+	<center>
+	<input id="search-btn" align="center" class="search-btn" type="button" name="search-btn" value="Buy"
+	  onClick="window.location.href='{{url}}'"/><br>
+	</center>
+</div>
+{{/each}}
+</template>
+

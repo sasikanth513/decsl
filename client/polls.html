@@ -1,0 +1,74 @@
+<template name="polls">
+<center>
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+<!-- displaying question label and textfield to read the question from the user -->
+<p class="label-design">Enter You Question:<input id="question" class="focus_event" name="search-txt-box" type="text" size="80" autofocus="autofocus" placeholder="Ask Question..." /></p>
+</center>
+<br>
+<div class="poll-options" id="menuitems">
+	<ul width="100%">
+	<!-- Displaying four option text-fields to read the options from the user -->
+		<li width="25%"><input type="text" class="pad-top"  id="op1"  placeholder="Option1"/><br>{{> product_thumb1}}</li>
+		<li width="25%"><input type="text" class="pad-top2" id="op2"  placeholder="Option2"/><br>{{> product_thumb2}}</li>
+		<li width="25%"><input type="text" class="pad-top3" id="op3"  placeholder="Option3"/><br>{{> product_thumb3}}</li>
+		<li width="25%"><input type="text" class="pad-top4" id="op4"  placeholder="Option4"/><br>{{> product_thumb4}}</li>
+				<span></span>
+	</ul>
+	<br><br>        
+</div>
+<center>
+<input class="bigbutton create-poll" type="button" value="Create" />
+	<div class="divider" />
+	<input class="bigbutton" type="button" value="Cancel" />
+</center>
+</template>
+
+
+<template name="product_thumb1">
+{{pro}}
+	<!-- Displaying values on focus leave of the textbox	 -->
+	 <li STYLE="width:218px;height:300px;border:2px solid black">
+
+					<b>Title:</b><p id="op1_title">  {{product_title}}</p><br>
+					<img id="op1_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
+					<b>Price:</b><p id="op1_price">  {{product_price}}</p><br>
+					<b>Spec's:</b><p id="op1_spec">  {{product_specs}}</p><br>
+	</li>
+</template>
+
+
+<template name="product_thumb2">
+	<!-- Displaying values on focus leave of the textbox	 -->
+	<li STYLE="width:218px;height:300px;border:2px solid black">
+
+					<b>Title:</b><p id="op2_title">  {{product_title}}</p><br>
+					<img id="op2_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
+					<b>Price:</b><p id="op2_price">  {{product_price}}</p><br>
+					<b>Spec's:</b><p id="op2_spec">  {{product_specs}}</p><br>
+	</li>
+</template>
+
+
+<template name="product_thumb3">
+	<!-- Displaying values on focus leave of the textbox	 -->
+	<li STYLE="width:218px;height:300px;border:2px solid black">
+
+					<b>Title:</b><p id="op3_title">  {{product_title}}</p><br>
+					<img id="op3_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
+					<b>Price:</b><p id="op3_price">  {{product_price}}</p><br>
+					<b>Spec's:</b><p id="op3_spec">  {{product_specs}}</p><br>
+	</li>
+</template>
+
+
+<template name="product_thumb4">
+	<!-- Displaying values on focus leave of the textbox	 -->
+	<li STYLE="width:218px;height:300px;border:2px solid black">
+
+					<b>Title:</b><p id="op4_title">  {{product_title}}</p><br>
+					<img id="op4_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
+					<b>Price:</b><p id="op4_price">  {{product_price}}</p><br>
+					<b>Spec's:</b><p id="op4_spec">  {{product_specs}}</p><br>
+	</li>
+</template>
+

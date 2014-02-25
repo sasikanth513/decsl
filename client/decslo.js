@@ -1,0 +1,883 @@
+Polls_Coll=new Meteor.Collection('polls_coll');
+Ques_Coll=new Meteor.Collection('ques_coll');
+User_Coll=new Meteor.Collection('user_coll');
+var page = new Pagination("myfirstPagination",{perPage:5});
+var pagination = new Pagination("testPagination",{perPage:2});
+
+//Adding pages to the iron-router
+Router.map(function(){
+
+	this.route('index', {path: '/' });
+   	this.route('polls', {path:'/polls/'});
+   	this.route('myaccount', {path:'/myaccount/'});
+	this.route('pollpage', {path:'/pollpage/:_id'});
+	this.route('quespage', {path:'/quespage/:_id'});
+	this.route('questions', {path:'/questions'});
+	this.route('searchpage', {path:'/searchpage/'});
+	this.route('product', {path:'/product/:productId'});
+});
+
+
+
+
+	// on startup user subscribes to all the polls and question collections
+	Meteor.startup(function()
+	{
+		 Deps.autorun(function () {
+			// subscribing to the polls,questions and users collection(reactive collections)
+			Meteor.subscribe('pollsCollection');
+			Meteor.subscribe('quesCollection');
+			Meteor.subscribe('userCollection');
+			Meteor.subscribe('productmobiles');
+			
+		});
+				
+	
+	});
+		
+function deleteEvent()
+{
+	console.log(this._id);
+}
+
+	var uniqid,abc,incno=0,incno2=0;
+	//setup before functions
+		var typingTimer;                //timer identifier
+		var doneTypingInterval = 500;  //time in ms, 5 second for example
+		
+	// create polling : inserting values to the poll collection
+	Template.polls.events({
+    		'click input.create-poll': function () {
+						var u_id=Meteor.userId();
+						//reading poll question
+					 	var quest=document.getElementById('question').value;
+					 	//reading options title
+						var op1=document.getElementById('op1').value;
+						var op2=document.getElementById("op2").value;
+						var op3=document.getElementById("op3").value;
+						var op4=document.getElementById("op4").value;
+						//getting product ids and store them in collection
+						var pro_id1=Session.get("product1");
+						var pro_id2=Session.get("product2");
+						var pro_id3=Session.get("product3");
+						var pro_id4=Session.get("product4");
+						//saving data to sort the polls in home screen
+						var dat=new Date();
+						var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
+					 	console.log(c_time);
+						var nnid=Polls_Coll.insert({question: quest,owner:u_id,created_at:c_time,
+									option1:[{pd:op1,pro_id:pro_id1,ids:[]}],
+									option2:[{pd:op2,pro_id:pro_id2,ids:[]}],
+									option3:[{pd:op3,pro_id:pro_id3,ids:[]}],
+									option4:[{pd:op4,pro_id:pro_id4,ids:[]}]
+									});
+						console.log(nnid); 
+						//after inserting values to the collection user redirected to the pollpage(displaying the question)
+						Router.go('pollpage', {_id: nnid});
+		
+    		},
+		//auto complete action to pollpage question field
+		'focus input.focus_event':function()
+		{
+		
+			var arr2=_(Polls_Coll.find().fetch()).pluck("question");
+			$( "#question" ).autocomplete({source:arr2,minLength:5});
+					
+		},
+		//auto complete action to pollpage option fields	
+		'keyup input.pad-top':function()
+		{
+
+			console.log("at starting");
+		//on keyup, start the countdown
+			clearTimeout(typingTimer);
+			if ($('#op1').val)
+			{
+			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+			}
+			
+			//user is "finished typing," do something
+			function doneTyping () {
+			    //do something
+			    var arr=new Array();
+			    arr.length=0;
+			    console.log(arr);
+			    var s_string=document.getElementById("op1").value;
+			    console.log(s_string);
+			    Meteor.call('apiresult',s_string,function(error,resul){
+			    	
+			    	console.log(resul.skimlinksProductAPI.numFound);
+			    	console.log(resul.skimlinksProductAPI.products[0].title);
+			    	
+			    	for(var i=0;i<10;i++)
+			    	{
+			    		
+			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
+			    	}
+			    	console.log(arr);
+			    	// arr[0]=result.skimlinksProductAPI.products.title;
+			    	$( "#op1").autocomplete({source:arr});
+			    	
+			    });
+		}
+				
+		},
+		'keyup input.pad-top2':function()
+		{
+
+			console.log("at starting");
+		    //on keyup, start the countdown
+			clearTimeout(typingTimer);
+			if ($('#op2').val)
+			{
+			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+			}
+			
+			//user is "finished typing," do something
+			function doneTyping () {
+			    //do something
+			    var arr=new Array();
+			    arr.length=0;
+			    console.log(arr);
+			    var s_string=document.getElementById("op2").value;
+			    console.log(s_string);
+			    Meteor.call('apiresult',s_string,function(error,resul){
+			    	
+			    	console.log(resul.skimlinksProductAPI.numFound);
+			    	console.log(resul.skimlinksProductAPI.products[0].title);
+			    	
+			    	for(var i=0;i<10;i++)
+			    	{
+			    		
+			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
+			    	}
+			    	console.log(arr);
+			    	// arr[0]=result.skimlinksProductAPI.products.title;
+			    	$( "#op2").autocomplete({source:arr});
+			    	
+			    });
+		}
+				
+		},
+		'keyup input.pad-top3':function()
+		{
+
+			console.log("at starting");
+		//on keyup, start the countdown
+			clearTimeout(typingTimer);
+			if ($('#op3').val)
+			{
+			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+			}
+			
+			//user is "finished typing," do something
+			function doneTyping () {
+			    //do something
+			    var arr=new Array();
+			    arr.length=0;
+			    console.log(arr);
+			    var s_string=document.getElementById("op3").value;
+			    console.log(s_string);
+			    Meteor.call('apiresult',s_string,function(error,resul){
+			    	
+			    	console.log(resul.skimlinksProductAPI.numFound);
+			    	console.log(resul.skimlinksProductAPI.products[0].title);
+			    	
+			    	for(var i=0;i<10;i++)
+			    	{
+			    		
+			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
+			    	}
+			    	console.log(arr);
+			    	// arr[0]=result.skimlinksProductAPI.products.title;
+			    	$( "#op3").autocomplete({source:arr});
+			    	
+			    });
+		}
+				
+		},
+		'keyup input.pad-top4':function()
+		{
+
+			console.log("at starting");
+		//on keyup, start the countdown
+			clearTimeout(typingTimer);
+			if ($('#op4').val)
+			{
+			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+			}
+			
+			//user is "finished typing," do something
+			function doneTyping () {
+			    //do something
+			    var arr=new Array();
+			    arr.length=0;
+			    console.log(arr);
+			    var s_string=document.getElementById("op4").value;
+			    console.log(s_string);
+			    Meteor.call('apiresult',s_string,function(error,resul){
+			    	
+			    	console.log(resul.skimlinksProductAPI.numFound);
+			    	console.log(resul.skimlinksProductAPI.products[0].title);
+			    	
+			    	for(var i=0;i<10;i++)
+			    	{
+			    		
+			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
+			    	} 
+			    	console.log(arr);
+			    	// arr[0]=result.skimlinksProductAPI.products.title;
+			    	$( "#op4").autocomplete({source:arr});
+			    	
+			    });
+		}
+				
+		},
+		'focusout input.pad-top':function()
+		{
+			console.log("focus out event");
+			var op1_value=document.getElementById("op1").value;
+			Meteor.call("apiresult",op1_value,function(e,r){
+				console.log("taking back the result");
+				console.log(r);
+				document.getElementById("op1_title").innerHTML=r.skimlinksProductAPI.products[0].title;
+				// document.getElementById("op1_spec").innerHTML=r.skimlinksProductAPI.products[0].description;
+				document.getElementById("op1_price").innerHTML=r.skimlinksProductAPI.products[0].price;
+				document.getElementById("op1_image").src=r.skimlinksProductAPI.products[0].images.imageThumb1Url;
+				var pro1=r.skimlinksProductAPI.products[0].productId;
+				Session.set("product1",pro1);
+
+			});
+
+		},
+		'focusout input.pad-top2':function()
+		{
+			console.log("focus out event");
+			var op1_value=document.getElementById("op2").value;
+			Meteor.call("apiresult",op1_value,function(e,r){
+				console.log("taking back the result");
+				console.log(r);
+				document.getElementById("op2_title").innerHTML=r.skimlinksProductAPI.products[0].title;
+				// document.getElementById("op1_spec").innerHTML=r.skimlinksProductAPI.products[0].description;
+				document.getElementById("op2_price").innerHTML=r.skimlinksProductAPI.products[0].price;
+				document.getElementById("op2_image").src=r.skimlinksProductAPI.products[0].images.imageThumb1Url;
+				var pro1=r.skimlinksProductAPI.products[0].productId;
+				Session.set("product2",pro1);
+
+			});
+
+		},
+		'focusout input.pad-top3':function()
+		{
+			console.log("focus out event");
+			var op1_value=document.getElementById("op3").value;
+			Meteor.call("apiresult",op1_value,function(e,r){
+				console.log("taking back the result");
+				console.log(r);
+				document.getElementById("op3_title").innerHTML=r.skimlinksProductAPI.products[0].title;
+				// document.getElementById("op1_spec").innerHTML=r.skimlinksProductAPI.products[0].description;
+				document.getElementById("op3_price").innerHTML=r.skimlinksProductAPI.products[0].price;
+				document.getElementById("op3_image").src=r.skimlinksProductAPI.products[0].images.imageThumb1Url;
+				var pro1=r.skimlinksProductAPI.products[0].productId;
+				Session.set("product3",pro1);
+			});
+
+		},
+		'focusout input.pad-top4':function()
+		{
+			console.log("focus out event");
+			var op1_value=document.getElementById("op4").value;
+			Meteor.call("apiresult",op1_value,function(e,r){
+				console.log("taking back the result");
+				console.log(r);
+				document.getElementById("op4_title").innerHTML=r.skimlinksProductAPI.products[0].title;
+				// document.getElementById("op1_spec").innerHTML=r.skimlinksProductAPI.products[0].description;
+				document.getElementById("op4_price").innerHTML=r.skimlinksProductAPI.products[0].price;
+				document.getElementById("op4_image").src=r.skimlinksProductAPI.products[0].images.imageThumb1Url;
+				var pro1=r.skimlinksProductAPI.products[0].productId;
+				Session.set("product4",pro1);
+			});
+
+		}
+	
+  		});
+
+	Template.questions.events({
+		//auto complete action to question page questio field
+		'focus input.focus_event':function()
+		{
+		
+			var arr2=_(Ques_Coll.find().fetch()).pluck("question");
+			$( "#question" ).autocomplete({source:arr2});
+					
+		},
+		//Inserting question to Ques_Coll collection
+		'click input.create-ques': function () {
+	   		var quest=document.getElementById('question').value;
+			var u_id=Meteor.userId();
+			var dat=new Date();
+			var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
+			console.log(c_time);
+			var new_id=Ques_Coll.insert({question: quest,created_at:c_time,owner:u_id,comments:[]});
+			console.log(new_id);
+			Router.go('quespage', {_id:new_id});
+		
+    		}
+
+	});
+	// adding vote: checks whether user already voted or not, if not add the vote
+	Template.product_thumbnail.events({
+    		'click input.add-vote': function () {
+			
+				var option_data=Polls_Coll.findOne({_id:this._id}).option1[0].pd;		
+				//checking whether any user logged-in or not
+				if(Meteor.user().profile.name)
+				{
+					//if user logged-in removing warning message on the field
+					document.getElementById('warning').innerHTML="";
+					
+					var u_name=Meteor.user().profile.name;	
+					//checking whether user already voted on any of the options			
+					var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_name}}}).count();				
+					var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_name}}}).count();
+					var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_name}}}).count();
+					var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_name}}}).count();
+					
+					//checking whether user already voted on any of the options
+					if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
+					{
+						console.log("name not found");
+						console.log(option_data);
+						//calling server method:Inserting name into the voted list
+						Meteor.call('updatePosts',this._id,option_data,function(e,result){
+								console.log(result);
+							});
+					}
+					//if user already voted on the question display warning message
+					else
+					{
+						
+						document.getElementById('warning').innerHTML="* Already voted on this question";
+					}
+			 }
+			 //if user not logged-in showing warning message 
+			 else
+			 {
+			 		document.getElementById('warning').innerHTML="* Login to vote";
+			 }
+		}
+		});
+	Template.searchpage.events({
+		'click input.search-btn':function()
+		{
+			var search_ele=document.getElementById("autocomplete").value;
+			if(search_ele)
+			{
+				Session.set("search_string",search_ele);
+				Router.go('searchpage');
+			}
+			document.getElementById("search-warning").innerHTML="* Enter words to search";
+		},
+	
+  		'keypress input.focus_eve': function (evt) {
+    	if (evt.which === 13) 
+    	{
+    		console.log("event occured")
+      		var search_elem=document.getElementById("autocomplete").value;
+			console.log(search_elem);
+			if(search_elem)
+			{
+				Session.set("search_string",search_elem);
+				Router.go('searchpage');
+			}
+			document.getElementById("search-warning").innerHTML="* Enter words to search";
+    	}
+  	}
+
+
+	})
+	
+	//Search page helpers
+	Template.searchpage.helpers({
+		displayResult:function(){
+		
+							var s_str=Session.get("search_string");
+							//calling server method to search for a element in the api
+							Meteor.call('apiresult',s_str,function(e,result)
+												{
+													console.log(result);
+													Session.set("object",result);
+												});
+							},
+		resultCursor:function(){
+				//get the result and return the cursor to the user
+				var abc=Session.get("object");
+				console.log(abc);
+				return abc;		
+		},
+		
+		//returning results from the polls
+		poll_result:function(){
+					var search_element=Session.get("search_string");
+					return Polls_Coll.find({question:{$regex:search_element+"*"}});
+					},
+		//returning results from the questions
+		ques_result:function(){
+					var search_element=Session.get("search_string");
+					return Ques_Coll.find({question:{$regex:search_element+"*"}});
+					}										
+							
+	});
+	
+	Template.product_thumbnail.helpers({
+		op1_votes:function(){
+		
+		return	Polls_Coll.findOne({_id:this._id}).option1[0].ids.length;
+		},
+		op_id1:function()
+		{
+			return this._id+"1";
+			
+		},
+		product:function()
+		{
+			var coll_var=Polls_Coll.findOne({_id:this._id}).option1[0].pro_id;
+			Meteor.call("productIdResult",coll_var,function(error,result){
+
+					Session.set("product_results",result);
+			})
+		},
+		product_res:function()
+		{
+			var fgh=Session.get("product_results");
+			return fgh;
+		}
+		
+		});
+		
+	//second option thumbnail	
+	Template.product_thumbnail_two.events({
+    		'click input.add-vote': function () {
+			
+				var option_data=Polls_Coll.findOne({_id:this._id}).option2[0].pd;		
+			//checking whether user logged-in or not	
+			if(Meteor.user().profile.name)	
+			{
+				//if logged-in remove the warning message
+				document.getElementById('warning').innerHTML="";
+				var u_name=Meteor.user().profile.name;
+				//checking whether user already voted on this question or not
+				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_name}}}).count();				
+				var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_name}}}).count();
+				var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_name}}}).count();
+				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_name}}}).count();
+				if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
+				{
+					console.log("name not found");
+					console.log(option_data);
+					//Inserting name into the voted list
+					Meteor.call('updatePosts2',this._id,option_data,function(e,result){
+							console.log(result);
+						});
+				}
+				else
+				{
+					//if already voted on this question show the warning message
+					document.getElementById('warning').innerHTML="* Already voted on this question";
+				}
+			 }
+			 //if user not logged-in display warning message
+			 else
+			 {
+			 		document.getElementById('warning').innerHTML="* Login to vote";
+			 }
+			
+		}
+		});
+		
+	Template.product_thumbnail_two.helpers({
+		op2_votes:function(){
+		
+				return	Polls_Coll.findOne({_id:this._id}).option2[0].ids.length;
+		},
+		op_id2:function()
+		{
+			return this._id+"2";
+		},
+		product2:function()
+		{
+			var coll_var=Polls_Coll.findOne({_id:this._id}).option2[0].pro_id;
+			Meteor.call("productIdResult",coll_var,function(error,result){
+
+					Session.set("product_results2",result);
+			})
+		},
+		product_res:function()
+		{
+			var fgh=Session.get("product_results2");
+			return fgh;
+		}
+		});
+		
+		
+	//third option thumbnail	
+	Template.product_thumbnail_three.events({
+    		'click input.add-vote': function () {
+    		
+    		//checking whether usr loggedin or not
+			if(Meteor.user().profile.name)
+			{
+				//if user logged-in deleting the warning message
+				document.getElementById('warning').innerHTML="";
+				var option_data=Polls_Coll.findOne({_id:this._id}).option3[0].pd;		
+				var u_name=Meteor.user().profile.name;
+				
+				//checking whether user already voted on this question or not
+				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_name}}}).count();				
+				var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_name}}}).count();
+				var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_name}}}).count();
+				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_name}}}).count();
+				if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
+				{
+					console.log("name not found");
+					console.log(option_data);
+					//Inserting name into the voted list
+					Meteor.call('updatePosts3',this._id,option_data,function(e,result){
+							console.log(result);
+						});
+				}
+				//if user already voted on this question display warning message
+				else
+				{
+					document.getElementById('warning').innerHTML="* Already voted on this question";
+				}
+			 }
+			 //if user not logged-in showing error message label on the page
+			 else
+			 {
+			 		document.getElementById('warning').innerHTML="* Login to vote";
+			 }
+		}
+		});
+	Template.product_thumbnail_three.helpers({
+		op3_votes:function(){
+		
+			return	Polls_Coll.findOne({_id:this._id}).option3[0].ids.length;
+		},
+		op_id3:function()
+		{
+			return this._id+"3";
+		},
+		product3:function()
+		{
+			var coll_var=Polls_Coll.findOne({_id:this._id}).option3[0].pro_id;
+			Meteor.call("productIdResult",coll_var,function(error,result){
+
+					Session.set("product_results3",result);
+			})
+		},
+		product_res:function()
+		{
+			var fgh=Session.get("product_results3");
+			return fgh;
+		}
+		});
+		
+	//fourth option thumbnail
+	Template.product_thumbnail_four.events({
+    		'click input.add-vote': function () {	
+    		//checking whether user logged-in or not
+    		if(Meteor.user().profile.name)
+    		{
+    			//if user logged-in removing the warning message
+    			document.getElementById('warning').innerHTML="";
+				var option_data=Polls_Coll.findOne({_id:this._id}).option4[0].pd;		
+				var u_name=Meteor.user().profile.name;
+				//checking whether user already voted on this question or not
+				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_name}}}).count();				
+				var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_name}}}).count();
+				var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_name}}}).count();
+				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_name}}}).count();
+				if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
+				{
+					alert("name not found");
+					console.log(option_data);
+					//Inserting name into the voted list
+					Meteor.call('updatePosts4',this._id,option_data,function(e,result){
+							console.log(result);
+						});
+				}
+				//showing warning if user already voted on this question
+				else
+				{
+					document.getElementById('warning').innerHTML="* Already voted on this question";
+				}
+			 }
+			 //if user not logged-in displaying warning message
+			 else
+			 {
+			 		document.getElementById('warning').innerHTML="* Login to vote";
+			 }
+		}
+		});
+	Template.product_thumbnail_four.helpers({
+		op4_votes:function(){
+		
+			return	Polls_Coll.findOne({_id:this._id}).option4[0].ids.length;
+		},
+		op_id4:function()
+		{
+			return this._id+"4";
+		},
+		product4:function()
+		{
+			var coll_var=Polls_Coll.findOne({_id:this._id}).option4[0].pro_id;
+			Meteor.call("productIdResult",coll_var,function(error,result){
+
+					Session.set("product_results4",result);
+			})
+		},
+		product_res:function()
+		{
+			var fgh=Session.get("product_results4");
+			return fgh;
+		}
+		});
+		
+	
+	Template.display_ques.events({
+    		'click button.clik-eve': function () {
+    		
+		//adding comment along with the username and votes to the Ques_Coll collection
+		var asd=document.getElementById("comment_text").value;
+		var u_name=Meteor.user().profile.name;
+		var cValue=0;
+		console.log(this._id);
+		Ques_Coll.update({_id:this._id},{$push:{comments:{uname:u_name,cmt_text:asd,vCount:cValue,votes:[]}}});
+		
+		},
+		'click input.add-up':function(){
+			var url = window.location.pathname;
+			var id = url.substring(url.lastIndexOf('/') + 1);
+			console.log(this.cmt_text);
+			var u_name=Meteor.user().profile.name;
+			//var ins_doc=Polls_Coll.update({_id:arg1,"option1.pd":arg2},{$push:{"option1.$.ids":u_name}});
+			Meteor.call("upvote",id,u_name,this.cmt_text,function(e,r){
+			console.log(r);
+			});
+	
+						
+		}
+		
+		});
+		
+	Template.polls_coll.helpers({
+   		 polls_coll: function()
+		 {
+     			 return Polls_Coll.find();
+    		 }
+  		});
+
+	Template.display_poll.helpers({
+		uniqueid:function()
+		{
+			uniqid = Date.now();
+			abc=uniqid;
+			
+		},
+		unique_id:function()
+		{
+
+			return abc;
+
+		},
+		details:function()
+		{
+			var url = window.location.pathname;
+			var id = url.substring(url.lastIndexOf('/') + 1);
+			var id1 =this._id;
+			console.log(id);
+			console.log(id1);
+			return Polls_Coll.find( { _id: id } )
+		},
+		id_op1:function()
+		{
+			return this._id+"1";
+		},
+		id_op2:function()
+		{
+			return this._id+"2";
+		},
+		id_op3:function()
+		{
+			return this._id+"3";
+		},
+		id_op4:function()
+		{
+			return this._id+"4";
+		},
+		product_title1:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option1[0].pd;
+		},
+		product_title2:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option2[0].pd;
+		},
+		product_title3:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option3[0].pd;
+		},
+		product_title4:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option4[0].pd;
+		}
+
+	});	
+	
+	Template.display_ques.helpers({
+
+		uniqid:function()
+		{
+			uniqid = Date.now();
+			abc=uniqid;
+		},
+		uniq_id:function()
+		{
+			return abc;
+		},
+		details:function()
+		{
+			var url = window.location.pathname;
+			var id = url.substring(url.lastIndexOf('/') + 1);
+			return Ques_Coll.find( { _id: id } )
+		},
+		all_comments:function()
+		{
+			//return Ques_Coll.findOne( {_id:this._id});
+			var coll = Ques_Coll.findOne(this._id);
+
+    		return _.sortBy(coll.comments, function(comment) {
+      		return -comment.vCount;
+    		})
+		},
+		pagination:function()
+		{
+						
+			return pagination.create(Ques_Coll.findOne({_id:this._id}).comments.length);
+
+		}
+	});
+	
+	Template.display_ques.destroyed = function(){
+  			pagination.destroy();
+		}
+	Template.display_product.helpers({
+	detail:function()
+	{
+			var url = window.location.pathname;
+			var id = url.substring(url.lastIndexOf('/') + 1);
+			var id1 =id.replace("%7C","|");
+			//var id1=this._id;
+			console.log(id1);
+			Meteor.call('productIdResult',id1,function(e,results)
+												{
+													console.log(results);
+													Session.set("productIdSearch",results);
+												});
+							
+	},
+	product:function(){
+				var pid=Session.get("productIdSearch");
+				console.log(pid);
+				return pid;		
+		}
+	
+	});
+
+	
+	Template.index.events({
+	'keyup input.focus_eve':function()
+	{
+
+				
+		
+		
+	},
+	
+	'click input.search-btn':function()
+	{
+			var search_ele=document.getElementById("autocomplete").value;
+			if(search_ele)
+			{
+				Session.set("search_string",search_ele);
+				Router.go('searchpage');
+			}
+			document.getElementById("search-warning").innerHTML="* Enter words to search";
+	},
+	
+  'keypress input.focus_eve': function (evt) {
+    if (evt.which === 13) 
+    {
+    	console.log("event occured")
+      	var search_elem=document.getElementById("autocomplete").value;
+		console.log(search_elem);
+		if(search_elem)
+		{
+			Session.set("search_string",search_elem);
+			Router.go('searchpage');
+		}
+		document.getElementById("search-warning").innerHTML="* Enter words to search";
+    }
+  }
+
+	});
+	
+	
+
+		Template.index.helpers({
+   		pollscoll: function()
+		{
+			
+		 	
+	 		return Polls_Coll.find({},{sort: {created_at: -1}},{limit : 10});
+    	},
+		ques_coll: function()
+		 {
+     			 return Ques_Coll.find({}, {sort: {created_at: -1}},{limit : 10});
+    	 },
+    	 categories:function()
+    	 {
+    	 	console.log("client method called");
+    	 	Meteor.call("returnCategories",function(e,r){
+
+    	 		console.log(r);
+    	 	})
+    	 	console.log("client method returned");
+    	 }
+  		});
+	Template.my_polls.helpers({
+   		 pollscoll: function()
+		 {
+
+     			 return Polls_Coll.find({});
+    		 }
+	});
+	Template.my_ques.helpers({
+		quescoll: function()
+		 {
+     			 return Ques_Coll.find({}, {sort: {name: -1}});
+    		 }
+  		});
+
+Template.myaccount.events({
+'click .deletePoll':function(){
+	console.log(this._id);
+	Polls_Coll.remove({_id:this._id})
+
+},
+'click .deleteQues':function(){
+	console.log(this._id);
+	Ques_Coll.remove({_id:this._id})
+}
+})

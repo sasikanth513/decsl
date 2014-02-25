@@ -1,0 +1,59 @@
+<template name="index">
+
+		{{initialize}}
+<a href="{{pathFor 'myaccount'}}"><input class="bigbutton" type="submit" value="My Account" /></a><div align="right">{{loginButtons align="right"}}</div>
+			<center><div class="screwl" >
+			
+<input id="autocomplete" class="focus_eve" autofocus="autofocus" name="search-txt-box" type="text"  size="80"  placeholder="Search..." />
+<input id="search-btn" class="search-btn" type="submit" name="search-btn" value="Search" /><br>
+<p id="search-warning" class="warning"></p>				
+		</div>	</center>
+		{{categories}}
+		<div class="col-md-4 text-center" >
+			<a href="{{pathFor 'polls'}}"><input class="bigbutton" type="submit" value="Create Poll" /></a>
+			<a href="{{pathFor 'questions'}}"><input class="bigbutton" type="submit" value="Ask Question" /></a>
+		</div>
+		<h3 class="label-design-big" align=left>Recent Activity</h3><br>
+	<div class="table-pop">	
+		<table width=100%>
+			<tr>
+				<td><th class="label-design">Polls</th></td>
+				<td><th class="label-design">Questions</th></td>
+			</tr>
+		</table><br>
+
+		<table width="100%">
+			<td align="left" width="50%">
+				{{#each pollscoll}}
+					{{> home_poll}}
+	    		{{/each}}
+			</td>
+			<td align="left" width="50%">
+				{{#each ques_coll}}	
+					{{> home_ques}}
+	    		{{/each}}
+			</td>
+		</table>
+	</div>
+</template>
+
+
+<template name="home_poll">
+		
+	<div class="float-near">	
+	
+      <a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</a>
+	</div>
+	
+</template>
+
+
+<template name="home_ques">
+		
+	<div class="float-near">	
+
+     <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
+<br></div>
+	
+</template>
+

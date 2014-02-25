@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "pagination-mini": {}
+    },
+    "packages": {
+      "pagination-mini": {
+        "git": "https://github.com/huyinghuan/meteor-pagination-mini.git",
+        "tag": "v0.0.2",
+        "commit": "f07ab5ff58ae9d71ae4407cb3198d078a96750b0"
+      }
+    }
+  }
+}

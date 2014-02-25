@@ -1,0 +1,565 @@
+//auto complete
+
+/*console.log(this.userId);
+		var arr1=_(Product_Mobiles.find().fetch()).pluck("title");
+		var arr2=_(Polls_Coll.find().fetch()).pluck("question");
+		var arr3=arr2.concat(arr1);
+		var arr4=_(Ques_Coll.find().fetch()).pluck("question");
+		var arr5=arr4.concat(arr3);*/
+		
+		
+		//$( "#autocomplete" ).autocomplete({source:arr5});
+//auto complete
+
+<a href="{{pathFor 'myaccount'}}"><input class="bigbutton" type="button" value="My Account" /></a>
+
+<
+var nnid=Polls_Coll.insert({question: quest,option1:op1,option2:op2,option3:op3,option4:op4});
+		console.log("poll inserted");
+		Poll_Votes.insert({question_id:nnid,op1_votes:0,op2_votes:0,op3_votes:0,op4_votes:0})
+		console.log("option values inserted");
+
+option1:[{pid:op1}],
+					option2:[{pid:op2}],
+					option3:[{pid:op3}],
+					option4:[{pid:op4}]
+
+
+option1:[{pd:op1,ids:[]}],
+					option2:[{pd:op2,ids:[]}],
+					option3:[{pd:op3,ids:[]}],
+					option4:[{pd:op4,ids:[]}]
+
+.appendChild(newlabel)
+
+var newlabel = document.createElement("Label");
+		newlabel.setAttribute("for","fors");
+		var asd=document.getElementById("comment_text").value;
+		document.getElementById("comment_text").value="";
+		newlabel.innerHTML = asd;
+		cbar.appendChild(newlabel)
+				}
+
+
+
+<!-- Begin Comments JavaScript Code -->
+<script type="text/javascript" async>
+if(window.location.href.indexOf('&routeignore=1') == -1)
+{
+(function(){document.write('<div id="fcs_div"><a title="free comment script" href="http://www.freecommentscript.com">&nbsp;&nbsp;<b>Free HTML User Comments</b></a></div>');fcsfcs=document.createElement('script');fcsfcs.type="text/javascript";fcsfcs.src="http://www.freecommentscript.com/GetComments.php?p=52e267916d0aa&s=" + escape(window.location) + "&Width=520&FontColor=111111&BackgroundColor=FFFFFF&FontSize=14&Size=10";setTimeout("document.getElementById('fcs_div').appendChild(fcsfcs)",1);})();}</script><noscript><div><a href="http://www.freecommentscript.com" title="free html user comment box">Free Comment Script</a></div></noscript><!-- End Comments JavaScript Code -->
+!-- <div  class="poll-options" id="menuitems" >
+	<ul >
+		<li>{{> product_thumb}}</li>
+		<li>{{> product_thumb}}</li>
+		<li>{{> product_thumb}}</li>
+		<li>{{> product_thumb}}</li>
+				<span></span>
+		
+	</ul>
+	<br><br>
+</div> -->
+
+<template name="poll_data">
+
+	<div  color:#fafafa; padding:10px;">	  
+	     {{#each polls_coll}}	
+		 
+			{{> display_poll}}
+	    {{/each}} 
+
+	</div><hr>
+	  
+</template>
+
+<div class="bubble-list">
+			     	 <div class="bubble clearfix">
+			    	 <img src="#">
+			   	 <div class="bubble-content">
+				 <div class="point"></div>
+			 	 <p>Welcome To ThePCwizard.in - Helping Beginners. Developing Experts.</p>
+			       </div>
+			</div>
+
+.bubble img {
+    float:left;
+    width:70px;
+    height:70px;
+    border:3px solid #ffffff;
+    border-radius:10px
+                  }
+.bubble-content {
+   position:relative;
+   float:left;
+   margin-left:12px;
+   width:400px;
+   padding:0px 20px;
+   border-radius:10px;
+   background-color:#FFFFFF;
+   box-shadow:1px 1px 5px rgba(0,0,0,.2);
+   }
+.bubble {
+     margin-top:20px;
+     }
+.point {
+   border-top:10px solid transparent;
+   border-bottom:10px solid transparent;
+          border-right: 12px solid #FFF;
+   position:absolute;
+   left:-10px;
+   top:12px;
+   } 
+
+.clearfix:after {
+      visibility:hidden;
+      display:block;
+      font-size:0;
+      content: ".";
+      clear:both;
+      height:0;
+      line-height:
+      }
+.clearfix {
+      display: inline-block;
+      }
+* html .clearfix {
+         height: 1%;
+         }
+
+
+
+Template.poll_data.helpers({
+		uniqueid:function()
+		{
+			uniqid = Date.now();
+			console.log('uniqueid called');
+			abc=uniqid;
+		},
+		unique_id:function()
+		{
+
+			return abc;
+
+		}
+
+
+
+
+
+
+
+
+Polls_Coll=new Meteor.Collection('polls_coll');
+Ques_Coll=new Meteor.Collection('ques_coll');
+User_Coll=new Meteor.Collection('user_coll');
+
+//Adding pages to the iron-router
+Router.map(function(){
+
+	this.route('index', {path: '/' });
+   	this.route('polls', {path:'/polls/'});
+   	this.route('myaccount', {path:'/myaccount/'});
+	this.route('pollpage', {path:'/pollpage/:_id'});
+	this.route('quespage', {path:'/quespage/:_id'});
+
+});
+
+if(Meteor.isClient)
+{
+	// on startup user subscribes to all the polls and question collections
+	Meteor.startup(function()
+	{
+		 Deps.autorun(function () {
+			// subscribing to the polls,questions and users collection
+			Meteor.subscribe('pollsCollection');
+			Meteor.subscribe('quesCollection');
+			Meteor.subscribe('userCollection');
+		});
+				
+	});
+
+	var uniqid,abc,incno=0,incno2=0;
+	// create polling : inserting values to the poll collection
+	Template.polls.events({
+    		'click input.create-poll': function () {
+     		var quest=document.getElementById('question').value;
+		var op1=document.getElementById('op1').value;
+		var op2=document.getElementById("op2").value;
+		var op3=document.getElementById("op3").value;
+		var op4=document.getElementById("op4").value;
+		var nnid=Polls_Coll.insert({question: quest,
+					option1:[{pd:op1,ids:[]}],
+					option2:[{pd:op2,ids:[]}],
+					option3:[{pd:op3,ids:[]}],
+					option4:[{pd:op4,ids:[]}]
+					});
+		console.log(nnid);
+		Router.go('pollpage', {_id: nnid});
+		
+    		}
+  		});
+	// adding vote: checks whether user already voted or not, if not add the vote
+	Template.product_thumbnail.events({
+    		'click input.add-vote': function () {
+			
+			var e = window.event.target.id;
+			console.log(e);
+			var btn_value=document.getElementById(e).value;
+			if(btn_value=="vote")
+			{
+				document.getElementById(e).value="Un Vote";
+			}
+			{
+				document.getElementById(e).value="ote";
+			}
+			var us_exist=Meteor.call('isUserExists',function(e,r){});
+			//var u_name=Meteor.user().profile.name;
+			//var u_exist=Polls_Coll.findOne( { 'option1.ids': u_name} );
+			console.log(us_exist.option1.length);
+			if(us_exist.option1.length)
+			{
+				console.log("name not found")
+				//Inserting name into the voted list
+				var option_data=Polls_Coll.findOne({_id:this._id}).option1[0].pd;
+				Meteor.call('updatePosts',this._id,option_data,function(e,r){});
+			}
+			else
+			{
+				console.log("already voted on this question");
+			}
+		}
+		});
+	Template.product_thumbnail.helpers({
+		op1_votes:function(){
+		
+		return	Polls_Coll.findOne({_id:this._id}).option1[0].ids.length;
+		},
+		op_id1:function()
+		{
+			return this._id+"1";
+		},
+		product_title:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option1[0].pd;
+		}
+		});
+	Template.product_thumbnail_two.events({
+    		'click input.add-vote': function () {
+			var option_data=Polls_Coll.findOne({_id:this._id}).option2[0].pd;
+			Meteor.call('updatePosts2',this._id,option_data,function(e,r){});
+		}
+		});
+	Template.product_thumbnail_two.helpers({
+		op2_votes:function(){
+		
+				return	Polls_Coll.findOne({_id:this._id}).option2[0].ids.length;
+		},
+		op_id2:function()
+		{
+			return this._id+"2";
+		},
+		product_title:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option2[0].pd;
+		}
+		});
+	Template.product_thumbnail_three.events({
+    		'click input.add-vote': function () {
+			var option_data=Polls_Coll.findOne({_id:this._id}).option3[0].pd;
+			Meteor.call('updatePosts3',this._id,option_data,function(e,r){});
+		}
+		});
+	Template.product_thumbnail_three.helpers({
+		op3_votes:function(){
+		
+			return	Polls_Coll.findOne({_id:this._id}).option3[0].ids.length;
+		},
+		op_id3:function()
+		{
+			return this._id+"3";
+		},
+		product_title:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option3[0].pd;
+		}
+		});
+	Template.product_thumbnail_four.events({
+    		'click input.add-vote': function () {	
+			var option_data=Polls_Coll.findOne({_id:this._id}).option4[0].pd;
+			Meteor.call('updatePosts4',this._id,option_data,function(e,r){});
+		}
+		});
+	Template.product_thumbnail_four.helpers({
+		op4_votes:function(){
+		
+			return	Polls_Coll.findOne({_id:this._id}).option4[0].ids.length;
+		},
+		op_id4:function()
+		{
+			return this._id+"4";
+		},
+		product_title:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option4[0].pd;
+		}
+		});
+	
+	Template.display_ques.events({
+    		'click button.clik-eve': function () {
+		//var templateName = "comment_box";
+		//var fragment = Meteor.render(Template[ templateName ]); // this calls the template and returns the HTML.
+		
+		//$('cbar').html( fragment );
+		//var ele = document.createElement("div");
+		 //ele.appendChild("{{comment_box}}") ;
+		
+		var ele = document.createElement("div");
+		    ele.setAttribute("id","timedrpact");
+		    ele.setAttribute("class","tip left cmt-more")
+		var newlabel = document.createElement("p");
+		var asd=document.getElementById("comment_text").value;
+		var asdfg="<b>"+Meteor.user().profile.name+"</b>"+" says"+"<br><br>"+asd;
+		document.getElementById("comment_text").value="";
+		newlabel.innerHTML = asdfg;
+		ele.appendChild(newlabel);
+		cbar.appendChild(ele);	
+				}
+		});
+		
+	Template.polls_coll.helpers({
+   		 polls_coll: function()
+		 {
+     			 return Polls_Coll.find();
+    		 }
+  		});
+
+	Template.display_poll.helpers({
+		uniqueid:function()
+		{
+			uniqid = Date.now();
+			abc=uniqid;
+			
+		},
+		unique_id:function()
+		{
+
+			return abc;
+
+		},
+		details:function()
+		{
+			var url = window.location.pathname;
+			var id = url.substring(url.lastIndexOf('/') + 1);
+			return Polls_Coll.find( { _id: id } )
+		},
+		id_op1:function()
+		{
+			return this._id+"1";
+		},
+		id_op2:function()
+		{
+			return this._id+"2";
+		},
+		id_op3:function()
+		{
+			return this._id+"3";
+		},
+		id_op4:function()
+		{
+			return this._id+"4";
+		},
+		product_title1:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option1[0].pd;
+		},
+		product_title2:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option2[0].pd;
+		},
+		product_title3:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option3[0].pd;
+		},
+		product_title4:function()
+		{
+			return Polls_Coll.findOne({_id:this._id}).option4[0].pd;
+		}
+
+	});	
+	
+	Template.display_ques.helpers({
+
+		uniqid:function()
+		{
+			uniqid = Date.now();
+			abc=uniqid;
+		},
+		uniq_id:function()
+		{
+			return abc;
+		},
+		details:function()
+		{
+			var url = window.location.pathname;
+			var id = url.substring(url.lastIndexOf('/') + 1);
+			return Ques_Coll.find( { _id: id } )
+		}
+
+	
+	});
+	
+	Template.index.events({
+	'focus input.focus-eve':function()
+	{
+		$( "#autocomplete" ).autocomplete({
+		  source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]
+		});
+	}
+
+	});
+	
+
+	Template.index.helpers({
+   		 pollscoll: function()
+		 {
+
+     			 return Polls_Coll.find({});
+    		 },
+		ques_coll: function()
+		 {
+     			 return Ques_Coll.find({}, {sort: {name: -1}});
+    		 }
+  		});
+	Template.my_polls.helpers({
+   		 pollscoll: function()
+		 {
+
+     			 return Polls_Coll.find({});
+    		 }
+	});
+	Template.my_ques.helpers({
+		quescoll: function()
+		 {
+     			 return Ques_Coll.find({}, {sort: {name: -1}});
+    		 }
+  		});
+}
+
+
+if (Meteor.isServer) {
+
+		Meteor.publish('pollsCollection',function(){
+
+				return Polls_Coll.find({});		
+			});
+		
+		Meteor.publish('quesCollection',function(){
+				return Ques_Coll.find({});
+			});
+		Meteor.publish('userCollection',function(){
+				return User_Coll.find({});
+			});
+		Polls_Coll.allow({
+			insert:function(){
+					return true;
+					},
+			update:function(userId, doc, fields, modifier){
+					return true;
+					},
+			remove:function(){
+				return true;
+			}
+	});
+	
+//var e = window.event.target.id;
+  Meteor.startup(function() {
+
+    return Meteor.methods(
+	{
+	 	updatePosts: function(arg1,arg2) 
+		{
+				
+				var u_name=Meteor.user().profile.name;
+				return Polls_Coll.update({_id:arg1,"option1.pd":arg2},{$push:{"option1.$.ids":u_name}});	
+
+      		},
+		updatePosts2: function(arg1,arg2) 
+		{
+				
+				var u_name=Meteor.user().profile.name;
+				return Polls_Coll.update({_id:arg1,"option2.pd":arg2},{$push:{"option2.$.ids":u_name}});	
+
+      		},
+		updatePosts3: function(arg1,arg2) 
+		{
+				
+				var u_name=Meteor.user().profile.name;
+				return Polls_Coll.update({_id:arg1,"option3.pd":arg2},{$push:{"option3.$.ids":u_name}});	
+
+      		},
+		updatePosts4: function(arg1,arg2) 
+		{
+				
+				var u_name=Meteor.user().profile.name;
+				return Polls_Coll.update({_id:arg1,"option4.pd":arg2},{$push:{"option4.$.ids":u_name}});	
+
+      		},
+		isUserExist: function()
+		{
+				//Checking user already voted or not (not working)
+				var u_name=Meteor.user().profile.name;
+				//var u_exist=Polls_Coll.findOne( { 'option1.ids': u_name} );
+				var u_exist=Polls_Coll.findOne( {option1:{$elemMatch:{ids: u_name}}} );
+				return u_exist;
+				/*if(u_exist.option1.length()==1)
+				{
+					alert("sent exists");		
+				Meteor.call('updatePosts',"JaC2CAXWwW8qjYBvw",u_name,function(e,r){});					
+					//return "exists";
+				}
+				else
+				{
+					alert("sent not exists");						
+					return "not"; 
+				}*/
+		},
+		removeAllPosts: function() {
+
+	        return Polls_Coll.remove({});
+
+      		}
+    	});
+  });
+
+	
+
+}
+
+
+
+
+isUserExists: function()
+		{
+				//Checking user already voted or not (not working)
+				var u_name=Meteor.user().profile.name;
+				var u_exist=Polls_Coll.find({option1:{$elemMatch:{ids:u_name}}}).count();
+				return u_exist;
+				/*console.log(u_exist.count());
+				if(u_exist.count()===0)
+				{
+					console.log("name not found")
+					//Inserting name into the voted list
+					var option_data=Polls_Coll.findOne({_id:this._id}).option1[0].pd;
+					Meteor.call('updatePosts',this._id,option_data,function(e,r){});
+				}
+				else
+				{
+					console.log("already voted on this question");
+				}*/
+				
+		},
+
+
+
+
+
+

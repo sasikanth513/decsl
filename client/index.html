@@ -1,8 +1,10 @@
 <template name="index">
-
+<body>
 		{{initialize}}
-<a href="{{pathFor 'myaccount'}}"><input class="bigbutton" type="submit" value="My Account" /></a><div align="right">{{loginButtons align="right"}}</div>
-			<center><div class="screwl" >
+
+{{> header}}
+
+ 			<center><div class="screwl" >
 			
 <input id="autocomplete" class="focus_eve" autofocus="autofocus" name="search-txt-box" type="text"  size="80"  placeholder="Search..." />
 <input id="search-btn" class="search-btn" type="submit" name="search-btn" value="Search" /><br>
@@ -12,7 +14,7 @@
 		<div class="col-md-4 text-center" >
 			<a href="{{pathFor 'polls'}}"><input class="bigbutton" type="submit" value="Create Poll" /></a>
 			<a href="{{pathFor 'questions'}}"><input class="bigbutton" type="submit" value="Ask Question" /></a>
-		</div>
+		</div align="right">
 		<h3 class="label-design-big" align=left>Recent Activity</h3><br>
 	<div class="table-pop">	
 		<table width=100%>
@@ -35,8 +37,57 @@
 			</td>
 		</table>
 	</div>
+</body>
 </template>
 
+<template name="header">
+	<div class="navbar">
+		<div class="navbar-inner"> 
+			<div class="container">
+				<div class="nav pull-right">
+					{{#if currentUser}}
+						<a href="{{pathFor 'myaccount' }}"><label>My Account</label></a>	
+					{{/if}}	
+					{{loginButtons align="right"}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="user_info">
+	<ul class="nav pull-right">
+		{{#if currentUser}}	
+			{{> user_loggedin}}
+		{{else}}
+			{{> user_loggedout}}
+		{{/if}}
+	</ul>
+</template>
+
+<template name="user_loggedin">
+	{{#if loggingin}}
+		<li><a>Logging in...</a></li>
+	{{else}}
+		<li>
+			<img class="img-rounded" style="height:32px; margin-top: 4px" src="{{currentUser.profile.avatar_url}}" />
+		</li>
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				{{currentUser.profile.login}}
+				<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu">
+				<li class="divider"></li>
+				<li><a id="logout">Logout</a></li>
+			</ul>
+		</li>
+	{{/if}}
+</template>
+
+<template name="user_loggedout">
+<li><a id="login">Login with Github</a></li>
+</template>
 
 <template name="home_poll">
 		

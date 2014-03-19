@@ -57,7 +57,7 @@ input#question
     transition: all 0.7s ease 0s;
 }
 
-input#search-btn
+input.search-btn
 {
 	cursor:pointer; 
 	font-size:1.5em;
@@ -332,7 +332,11 @@ input[type=radio].css-checkbox {
 	padding-left: 5%;
 }
 
-
+.table-responsive
+{
+	padding-right: 5%;
+	padding-left: 5%;
+}
 .comments { width: 65%; }
 
 

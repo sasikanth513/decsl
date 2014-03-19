@@ -1,5 +1,6 @@
 {
   "packages": {
-    "pagination-mini": {}
+    "pagination-mini": {},
+    "accounts-ui-bootstrap-3": {}
   }
 }

@@ -1,13 +1,14 @@
 <template name="searchpage">
 	<head>
-	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+	<!-- Loginbuttons at the right corner -->
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
 	  <title>search page</title>
 	</head>
 
 	<body>
 	<center>
+		<!-- Displaying searchbox and searchbutton on the page -->
 		<div class="screwl" >
-			
 			<input id="autocomplete" class="focus_eve" autofocus="autofocus" name="search-txt-box" type="text"  size="80"  placeholder="Search..." />
 			<input id="search-btn" class="search-btn" type="submit" name="search-btn" value="Search" /><br>
 			<p id="search-warning" class="warning"></p>				
@@ -16,30 +17,40 @@
 			{{displayResult}}
     	<p align="center"> {{resultCursor.skimlinksProductAPI.numFound}} Results found </p>
     	<div>
-    	<div class="div1">
-    		<h3 class="label-design">Products</h3>
+	    	
+	    	<div class="div1">
+			<!-- Displaying search string results from the API -->
+	    		<h3 class="label-design">Products</h3>
 			{{#each resultCursor.skimlinksProductAPI.products}}
 				<a href="{{pathFor 'product'}}"><img  width="60px" height="50px" src={{images.imageThumb1Url}}> {{title}}</a> ${{price}}<br>
 				
 			{{/each}}
-						
-    	</div>
+			 <!-- Pagination,previous and next buttons-->
+		 	 <ul class="pager">
+			          <li  id="prevButton" ><a href="#">&larr; Previous</a></li>
+			          <li  id="nextButton" ><a href="#">Next &rarr;</a></li>
+			 </ul>
+				 			
+	    	</div>
+
 		<div class="div2">
+			<!-- Displaying seatch string results from all polls -->
 			<h3 class="label-design">Polls</h3>
-    		{{#each poll_result}}
-  			<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</a><br>
-    		{{/each}}
+    			{{#each poll_result}}
+  				<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</a><br>
+    			{{/each}}
 		</div>
+
 		<div class="div3">
+			<!-- Displaying search string reults from the questions -->
 			<h3 class="label-design">Questions</h3>
 			{{#each ques_result}}
   			 <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
     		{{/each}}
 		</div>
-		</div><br><br>
-   	
-   
-		</body>
+		
+	</div><br><br>
+   	</body>
 </template>
 
 

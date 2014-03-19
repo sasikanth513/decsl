@@ -1,7 +1,7 @@
 <template name="product">
 	<head>
 
-<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
 
 	  <title>Product Description</title>
 	</head>
@@ -52,6 +52,42 @@
 	  onClick="window.location.href='{{url}}'"/><br>
 	</center>
 </div>
+
+<br><br><br><br>
+{{> similarProducts}}
 {{/each}}
 </template>
 
+<template name="similarProducts">
+	<div class="table-responsive">
+	<h3>Similar Products</h3>
+		<table class="table table-bordered">
+		<tr >
+			<th>Image</th>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Merchant</th>
+			<th>Link</th>
+		</tr>
+		<tbody>
+		{{details}}
+			{{#each similarProducts.skimlinksProductAPI.products}}
+			<tr>
+				<td><a href="{{pathFor 'product'}}"><img  width="60px" height="50px" src={{images.imageThumb1Url}}></td>
+				<td>{{title}}</td>
+				<td>   {{currency}} {{price}}</td>
+				<td>{{merchant}}</td>
+				<td><input  class="search-btn" type="button"  value="Buy" onClick="window.location.href='{{url}}'"/></td>
+			</tr>
+			{{/each}}
+		</tbody>
+			
+		</table>
+	</div>
+	<div class="container">
+	 	 <ul class="pager">
+		          <li class="previous" id="prevButton" ><a href="#">&larr; Previous</a></li>
+		          <li class="next" id="nextButton" ><a href="#">Next &rarr;</a></li>
+		 </ul>
+	 </div>
+</template>

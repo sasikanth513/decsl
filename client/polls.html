@@ -1,6 +1,6 @@
 <template name="polls">
 <center>
-<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
 <!-- displaying question label and textfield to read the question from the user -->
 <p class="label-design">Enter You Question:<input id="question" class="focus_event" name="search-txt-box" type="text" size="80" autofocus="autofocus" placeholder="Ask Question..." /></p>
 </center>
@@ -8,11 +8,13 @@
 <div class="poll-options" id="menuitems">
 	<ul width="100%">
 	<!-- Displaying four option text-fields to read the options from the user -->
-		<li width="25%"><input type="text" class="pad-top"  id="op1"  placeholder="Option1"/><br>{{> product_thumb1}}</li>
-		<li width="25%"><input type="text" class="pad-top2" id="op2"  placeholder="Option2"/><br>{{> product_thumb2}}</li>
-		<li width="25%"><input type="text" class="pad-top3" id="op3"  placeholder="Option3"/><br>{{> product_thumb3}}</li>
-		<li width="25%"><input type="text" class="pad-top4" id="op4"  placeholder="Option4"/><br>{{> product_thumb4}}</li>
+	<div class="col-lg-3  col-md-6 col-xs-12 " >
+		<li ><input type="text" class="pad-top"  id="op1"  placeholder="Option1"/><br>{{> product_thumb1}}</li>
+		<li ><input type="text" class="pad-top2" id="op2"  placeholder="Option2"/><br>{{> product_thumb2}}</li>
+		<li ><input type="text" class="pad-top3" id="op3"  placeholder="Option3"/><br>{{> product_thumb3}}</li>
+		<li ><input type="text" class="pad-top4" id="op4"  placeholder="Option4"/><br>{{> product_thumb4}}</li>
 				<span></span>
+	</div>
 	</ul>
 	<br><br>        
 </div>
@@ -25,9 +27,9 @@
 
 
 <template name="product_thumb1">
-{{pro}}
+<!-- {{pro}} -->
 	<!-- Displaying values on focus leave of the textbox	 -->
-	 <li STYLE="width:218px;height:300px;border:2px solid black">
+	 <li STYLE="height:280px;width:100%;border:2px solid black">
 
 					<b>Title:</b><p id="op1_title">  {{product_title}}</p><br>
 					<img id="op1_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
@@ -39,7 +41,7 @@
 
 <template name="product_thumb2">
 	<!-- Displaying values on focus leave of the textbox	 -->
-	<li STYLE="width:218px;height:300px;border:2px solid black">
+	 <li STYLE="height:280px;width:100%;border:2px solid black">
 
 					<b>Title:</b><p id="op2_title">  {{product_title}}</p><br>
 					<img id="op2_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
@@ -51,7 +53,7 @@
 
 <template name="product_thumb3">
 	<!-- Displaying values on focus leave of the textbox	 -->
-	<li STYLE="width:218px;height:300px;border:2px solid black">
+	 <li STYLE="height:280px;width:100%;border:2px solid black">
 
 					<b>Title:</b><p id="op3_title">  {{product_title}}</p><br>
 					<img id="op3_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>
@@ -63,7 +65,7 @@
 
 <template name="product_thumb4">
 	<!-- Displaying values on focus leave of the textbox	 -->
-	<li STYLE="width:218px;height:300px;border:2px solid black">
+	 <li STYLE="height:280px;width:100%;border:2px solid black">
 
 					<b>Title:</b><p id="op4_title">  {{product_title}}</p><br>
 					<img id="op4_image" src="images/list.jpg" height="70px" width="70px" align="center"><br>

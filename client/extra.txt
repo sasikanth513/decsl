@@ -1,3 +1,6 @@
+<!-- <a href="{{pathFor 'myaccount'}}"><input class="bigbutton" type="submit" value="My Account" /></a> -->
+ <!-- <div>{{loginButtons align="right"}}</div> -->
+
 //auto complete
 
 /*console.log(this.userId);

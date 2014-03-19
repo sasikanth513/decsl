@@ -1,6 +1,6 @@
 <template name="pollpage">
 	<head>
-	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons}}</div></div>
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
 	  <title>All polls</title>
 	</head>
 
@@ -23,8 +23,7 @@
 
 <!-- displaying poll question  -->
 <template name="display_poll">
-		{{#each details}}
-		<!-- displaying poll question -->
+				<!-- displaying poll question -->
 			{{uniqueid}}
 		<p class="label-design table-pop-more" name="{{unique_id}}"> <img src="/images/polls.jpg">{{question}}</p>
 			<div class="table-pop-more">
@@ -44,25 +43,25 @@
 			</center>
 		</div>
 		</div>
-		{{/each}}
+		
 
 </template>
 <template name="product_thumbnail">
 	<!-- Getting this._id and find the productId  and setting it as a session variable -->
-	{{product}}
+	{{product1}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:218px;height:300px;border:2px solid black" width="100%">
+	<li STYLE="width:100%;height:300px;border:2px solid black" width="100%">
 
-					<b>Title:</b>{{title}}<br>
-					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb1_image"><br>
-					<b>Price:</b>   {{currency}}{{price}}<br>
-					<b>Spec's:</b><br>
+				<b>Title:</b>{{title}}<br>
+				<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb1_image"><br>
+				<b>Price:</b>   {{currency}}{{price}}<br>
+				<b>Spec's:</b><br>
 	</li>
 	<center>
 	{{/each}}
 	<br><img src="/images/up.jpg">{{op1_votes}} Votes <br>
-				<input class="smallbutton add-vote" id="{{op_id1}}" type="button" value="Vote" align="center"/>
+				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
 </template>
 
@@ -73,7 +72,7 @@
 	{{product2}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:218px;height:300px;border:2px solid black" width="100%">
+	<li STYLE="width:100%;height:300px;border:2px solid black" width="100%">
 
 					<b>Title:</b>{{title}}<br>
 					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb2_image"><br>
@@ -83,7 +82,7 @@
 	<center>
 	{{/each}}
 	<br><img src="/images/up.jpg">{{op2_votes}} Votes <br>
-				<input class="smallbutton add-vote" id="{{op_id2}}" type="button" value="Vote" align="center"/>
+				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
 </template>
 
@@ -94,7 +93,7 @@
 	{{product3}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:218px;height:300px;border:2px solid black" width="100%">
+	<li STYLE="width:100%;height:300px;border:2px solid black" width="100%">
 
 					<b>Title:</b>{{title}}<br>
 					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb3_image"><br>
@@ -104,7 +103,7 @@
 	<center>
 	{{/each}}
 	<br><img src="/images/up.jpg">{{op3_votes}} Votes <br>
-				<input class="smallbutton add-vote" id="{{op_id3}}" type="button" value="Vote" align="center"/>
+				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
 </template>
 
@@ -114,7 +113,7 @@
 	{{product4}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:218px;height:300px;border:2px solid black" width="100%">
+	<li STYLE="width:100%;height:300px;border:2px solid black" width="100%">
 
 					<b>Title:</b>{{title}}<br>
 					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb4_image"><br>
@@ -124,7 +123,7 @@
 	<center>
 	{{/each}}
 	<br><img src="/images/up.jpg">{{op4_votes}} Votes <br>
-				<input class="smallbutton add-vote" id="{{op_id4}}" type="button" value="Vote" align="center"/>
+				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
 
 </template>

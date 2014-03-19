@@ -17,7 +17,7 @@ Product_Mobiles=new Meteor.Collection('product_mobiles');
 				//Publishing all questions to the user
 				return Ques_Coll.find({});
 			});
-		
+
 					
 // Giving delete,update and modify control to the user(if he/she is the owner of the document) on polls collection
 		Polls_Coll.allow({
@@ -45,23 +45,23 @@ Product_Mobiles=new Meteor.Collection('product_mobiles');
 				return  doc.owner === userId;
 			}
 	});
-	//search for product id
-	function returnAllResult(s_string)
+
+	
+	//search for product 
+	function returnAllResult(s_string,start,rows)
 	{
 			var skimlinks = Meteor.require('skimlinksjs');
-				
 			skimlinks.setup("5b010e041007c65a3a08a48d01227d6b");
 			var skimlinks_query = Async.wrap(skimlinks.query);
 			//var mer_cat="cell phones"
-			var title_val="title:\""+s_string+"\"";
+			var title_val="title:\""+s_string+"\" AND merchant:*buy* AND merchantCategory:*phones";
 			//var title_val="title:\"electric bicycle\"  AND merchantCategory:*bikes*" AND merchant:*Amazon*;
 			console.log(title_val);
 			var result = skimlinks_query({
-								searchFor: title_val,
-								rows:500
-				   				});
-
-			
+							searchFor: title_val,
+							start:start,
+							rows:rows
+				   		});
 			return result;
 	}
 	function returnAllCats()
@@ -98,77 +98,75 @@ Product_Mobiles=new Meteor.Collection('product_mobiles');
 
     return Meteor.methods(
 	{
-		//Entering u-name to the polls collection if he/she vote on particular question if not he is already voted on any of the option
-	 	updatePosts: function(arg1,arg2) 
+		//Entering u-name to the polls collection if he/she vote on particular question if he is not already voted on any of the option
+	 	updatePosts: function(arg1,arg2,arg3) 
 		{
 				
-				var u_name=Meteor.user().profile.name;
-				var ins_doc=Polls_Coll.update({_id:arg1,"option1.pd":arg2},{$push:{"option1.$.ids":u_name}});
+				var ins_doc=Polls_Coll.update({_id:arg1,"option1.pd":arg2},{$push:{"option1.$.ids":arg3}});
 				console.log(ins_doc);
 				return ins_doc;
       		},
-		updatePosts2: function(arg1,arg2) 
+		updatePosts2: function(arg1,arg2,arg3) 
 		{
 				
-				var u_name=Meteor.user().profile.name;
-				return Polls_Coll.update({_id:arg1,"option2.pd":arg2},{$push:{"option2.$.ids":u_name}});	
+				
+				return Polls_Coll.update({_id:arg1,"option2.pd":arg2},{$push:{"option2.$.ids":arg3}});	
 
       		},
-		updatePosts3: function(arg1,arg2) 
+		updatePosts3: function(arg1,arg2,arg3) 
 		{
 				
 				var u_name=Meteor.user().profile.name;
-				return Polls_Coll.update({_id:arg1,"option3.pd":arg2},{$push:{"option3.$.ids":u_name}});	
+				return Polls_Coll.update({_id:arg1,"option3.pd":arg2},{$push:{"option3.$.ids":arg3}});	
 
       		},
-		updatePosts4: function(arg1,arg2) 
+		updatePosts4: function(arg1,arg2,arg3) 
 		{
 				
 				var u_name=Meteor.user().profile.name;
-				return Polls_Coll.update({_id:arg1,"option4.pd":arg2},{$push:{"option4.$.ids":u_name}});	
+				return Polls_Coll.update({_id:arg1,"option4.pd":arg2},{$push:{"option4.$.ids":arg3}});	
 
       		},
       			
-      	upvote:function(arg1,arg2,arg3)
-      	{
-      			Ques_Coll.update({_id:arg1,"comments.cmt_text":arg3},{ $inc: { "comments.$.vCount": 1 } });		
-      			return Ques_Coll.update({_id:arg1,"comments.cmt_text":arg3},{$push:{"comments.$.votes":arg2}});
-      	},
-      	// Skimlinks API code to search for a particular product title and returns the result to called method
-		apiresult:function(arg1)
+	      	upvote:function(arg1,arg2,arg3)
+	      	{
+	      			Ques_Coll.update({_id:arg1,"comments.cmt_text":arg3},{ $inc: { "comments.$.vCount": 1 } });		
+	      			return Ques_Coll.update({_id:arg1,"comments.cmt_text":arg3},{$push:{"comments.$.votes":arg2}});
+	      	},
+	      	// Skimlinks API code to search for a particular product title and returns the result to called method
+		apiresult:function(arg1,arg2,arg3)
 		{
-				//var wrappedMethod = Async.wrap(returnAllResult);
-				var response = returnAllResult(arg1);
-				//    return response.skimlinksProductAPI.numFound;
-				return response;
+			//var wrappedMethod = Async.wrap(returnAllResult);
+			var response = returnAllResult(arg1,arg2,arg3);
+			//    return response.skimlinksProductAPI.numFound;
+			return response;
 
 		},
 		// Skimlinks API code to search for a particular product id and returns the result to called method
 		productIdResult:function(arg2)
 		{
-				//var wrappedMethod = Async.wrap(returnAllResult);
-				var proResponse = returnProductResult(arg2);
-				//    return response.skimlinksProductAPI.numFound;
-				return proResponse;
+			//var wrappedMethod = Async.wrap(returnAllResult);
+			var proResponse = returnProductResult(arg2);
+			//    return response.skimlinksProductAPI.numFound;
+			return proResponse;
 
 		},	
 		returnCategories:function()
 		{
-				
-				var res=returnAllCats();
-				return res;
+			var res=returnAllCats();
+			return res;
 		},
 		
 		//Method to remove all posts in the collection	
 		removeAllPolls: function() {
 
-	        return Polls_Coll.remove({});
+	        		return Polls_Coll.remove({});
 
-      		},
-      	//Methods to remove all questions in the collection
-      	removeAllQues: function(){
-      		return Ques_Coll.remove({});
-      	}
+	  		},
+	      	//Methods to remove all questions in the collection
+	      	removeAllQues: function(){
+	      		return Ques_Coll.remove({});
+	      	}
     	});
   });
 

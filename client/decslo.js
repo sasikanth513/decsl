@@ -191,8 +191,8 @@ function deleteEvent()
 						arr[i]=resul.skimlinksProductAPI.products[i].title;
 					}
 					console.log(arr);
-					// arr[0]=result.skimlinksProductAPI.products.title;
-					$( "#op1").autocomplete({source:arr});
+					
+					$( "#op1").autocomplete({source:resul});
 					
 				 });
 		}
@@ -453,6 +453,8 @@ function deleteEvent()
 	Template.searchpage.events({
 		'click input.search-btn':function()
 		{
+			Session.set("spage_start_number", 0);
+			Session.set("spage_end_number", 10);
 			var search_ele=document.getElementById("autocomplete").value;
 			if(search_ele)
 			{
@@ -465,6 +467,8 @@ function deleteEvent()
 		'keypress input.focus_eve': function (evt) {
 				if (evt.which === 13) 
 				{
+					Session.set("spage_start_number", 0);
+					Session.set("spage_end_number", 10);
 					console.log("event occured")
 						var search_elem=document.getElementById("autocomplete").value;
 					console.log(search_elem);

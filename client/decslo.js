@@ -8,20 +8,20 @@ var pagination = new Pagination("testPagination",{perPage:2});
 Router.map(function(){
 
 	this.route('index', {path: '/' });
-   	this.route('polls', {path:'/polls/'});
-   	this.route('myaccount', {path:'/myaccount/'});
+		this.route('polls', {path:'/polls/'});
+		this.route('myaccount', {path:'/myaccount/'});
 	this.route('pollpage', {path:'/pollpage/:_id',
 		 data:  function(){
-                
-                return Polls_Coll.findOne({_id:this.params._id});
-            }
-    });
+					 
+					 return Polls_Coll.findOne({_id:this.params._id});
+				}
+	 });
 	this.route('quespage', {path:'/quespage/:_id',
 		 data:  function(){
-                
-                return Ques_Coll.findOne({_id:this.params._id});
-            }
-    });
+					 
+					 return Ques_Coll.findOne({_id:this.params._id});
+				}
+	 });
 	this.route('questions', {path:'/questions'});
 	this.route('searchpage', {path:'/searchpage/'});
 	this.route('product', {path:'/product/:productId'});
@@ -32,10 +32,17 @@ Accounts.ui.config({
 });
 
 
+
 	// on startup user subscribes to all the polls and question collections
 	Meteor.startup(function()
 	{
-		 Deps.autorun(function () {
+		Session.set("spage_start_number",0);
+		Session.set("spage_end_number", 10);
+		
+		Session.set("ppage_start_number",0);
+		Session.set("ppage_end_number", 5);
+
+		Deps.autorun(function () {
 			// subscribing to the polls,questions and users collection(reactive collections)
 			Meteor.subscribe('pollsCollection');
 			Meteor.subscribe('quesCollection');
@@ -84,22 +91,17 @@ function deleteEvent()
 			});
 		}
 	});
-		
-	// create polling : inserting values to the poll collection
-	Template.polls.events({
-    		'click input.create-poll': function () {
-
-    			if( Meteor.user()) 
-    			{
+	
+	function createPoll(){
 				var u_id=Meteor.userId();
 				//reading poll question
-			 	var quest=document.getElementById('question').value;
-			 	//reading options title
+				var quest=document.getElementById('question').value;
+				//reading options title
 				var op1=document.getElementById('op1').value;
 				var op2=document.getElementById("op2").value;
 				var op3=document.getElementById("op3").value;
 				var op4=document.getElementById("op4").value;
-				//getting product ids and store them in collection
+				//getting product ids and store them in collection 
 				var pro_id1=Session.get("product1");
 				var pro_id2=Session.get("product2");
 				var pro_id3=Session.get("product3");
@@ -107,7 +109,7 @@ function deleteEvent()
 				//saving data to sort the polls in home screen
 				var dat=new Date();
 				var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
-			 	console.log(c_time);
+				console.log(c_time);
 				var nnid=Polls_Coll.insert({question: quest,owner:u_id,created_at:c_time,
 							option1:[{pd:op1,pro_id:pro_id1,ids:[]}],
 							option2:[{pd:op2,pro_id:pro_id2,ids:[]}],
@@ -117,13 +119,39 @@ function deleteEvent()
 				console.log(nnid); 
 				//after inserting values to the collection user redirected to the pollpage(displaying the question)
 				Router.go('pollpage', {_id: nnid});
+				
+	}
+
+	// create polling : inserting values to the poll collection
+	Template.polls.events({
+			'click input.create-poll': function () {
+
+				if( Meteor.user()) 
+				{
+					if(Meteor.user().emails)
+					{
+						if(Meteor.user().emails[0].verified)
+						{
+							createPoll();
+						}
+						else
+						{
+							document.getElementById('warning').innerHTML=" Verify your e-mail to create a poll";
+						}
+					}
+					else
+					{
+						createPoll();
+					}
+					
+				
 			}
 			else
 			{
-				alert("Login to create Poll");
+				document.getElementById('warning').innerHTML="*Login to create Poll ";
 			}
 		
-    		},
+			},
 		//auto complete action to pollpage question field
 		'focus input.focus_event':function()
 		{
@@ -132,7 +160,7 @@ function deleteEvent()
 			$( "#question" ).autocomplete({source:arr2,minLength:5});
 					
 		},
-		//auto complete action to pollpage option fields	
+		//auto complete action to pollpage option fields   
 		'keyup input.pad-top':function()
 		{
 
@@ -141,32 +169,32 @@ function deleteEvent()
 			clearTimeout(typingTimer);
 			if ($('#op1').val)
 			{
-			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+				 typingTimer = setTimeout(doneTyping, doneTypingInterval);
 			}
 			
 			//user is "finished typing," do something
 			function doneTyping () {
-			    //do something
-			    var arr=new Array();
-			    arr.length=0;
-			    console.log(arr);
-			    var s_string=document.getElementById("op1").value;
-			    console.log(s_string);
-			    Meteor.call('apiresult',s_string,0,10,function(error,resul){
-			    	
-			    	console.log(resul.skimlinksProductAPI.numFound);
-			    	console.log(resul.skimlinksProductAPI.products[0].title);
-			    	
-			    	for(var i=0;i<10;i++)
-			    	{
-			    		
-			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
-			    	}
-			    	console.log(arr);
-			    	// arr[0]=result.skimlinksProductAPI.products.title;
-			    	$( "#op1").autocomplete({source:arr});
-			    	
-			    });
+				 //do something
+				 var arr=new Array();
+				 arr.length=0;
+				 console.log(arr);
+				 var s_string=document.getElementById("op1").value;
+				 console.log(s_string);
+				 Meteor.call('apiresult',s_string,0,10,function(error,resul){
+					
+					console.log(resul.skimlinksProductAPI.numFound);
+					console.log(resul.skimlinksProductAPI.products[0].title);
+					
+					for(var i=0;i<10;i++)
+					{
+						
+						arr[i]=resul.skimlinksProductAPI.products[i].title;
+					}
+					console.log(arr);
+					// arr[0]=result.skimlinksProductAPI.products.title;
+					$( "#op1").autocomplete({source:arr});
+					
+				 });
 		}
 				
 		},
@@ -174,36 +202,36 @@ function deleteEvent()
 		{
 
 			console.log("at starting");
-		    //on keyup, start the countdown
+			 //on keyup, start the countdown
 			clearTimeout(typingTimer);
 			if ($('#op2').val)
 			{
-			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+				 typingTimer = setTimeout(doneTyping, doneTypingInterval);
 			}
 			
 			//user is "finished typing," do something
 			function doneTyping () {
-			    //do something
-			    var arr=new Array();
-			    arr.length=0;
-			    console.log(arr);
-			    var s_string=document.getElementById("op2").value;
-			    console.log(s_string);
-			    Meteor.call('apiresult',s_string,0,10,function(error,resul){
-			    	
-			    	console.log(resul.skimlinksProductAPI.numFound);
-			    	console.log(resul.skimlinksProductAPI.products[0].title);
-			    	
-			    	for(var i=0;i<10;i++)
-			    	{
-			    		
-			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
-			    	}
-			    	console.log(arr);
-			    	// arr[0]=result.skimlinksProductAPI.products.title;
-			    	$( "#op2").autocomplete({source:arr});
-			    	
-			    });
+				 //do something
+				 var arr=new Array();
+				 arr.length=0;
+				 console.log(arr);
+				 var s_string=document.getElementById("op2").value;
+				 console.log(s_string);
+				 Meteor.call('apiresult',s_string,0,10,function(error,resul){
+					
+					console.log(resul.skimlinksProductAPI.numFound);
+					console.log(resul.skimlinksProductAPI.products[0].title);
+					
+					for(var i=0;i<10;i++)
+					{
+						
+						arr[i]=resul.skimlinksProductAPI.products[i].title;
+					}
+					console.log(arr);
+					// arr[0]=result.skimlinksProductAPI.products.title;
+					$( "#op2").autocomplete({source:arr});
+					
+				 });
 		}
 				
 		},
@@ -215,32 +243,32 @@ function deleteEvent()
 			clearTimeout(typingTimer);
 			if ($('#op3').val)
 			{
-			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+				 typingTimer = setTimeout(doneTyping, doneTypingInterval);
 			}
 			
 			//user is "finished typing," do something
 			function doneTyping () {
-			    //do something
-			    var arr=new Array();
-			    arr.length=0;
-			    console.log(arr);
-			    var s_string=document.getElementById("op3").value;
-			    console.log(s_string);
-			    Meteor.call('apiresult',s_string,0,10,function(error,resul){
-			    	
-			    	console.log(resul.skimlinksProductAPI.numFound);
-			    	console.log(resul.skimlinksProductAPI.products[0].title);
-			    	
-			    	for(var i=0;i<10;i++)
-			    	{
-			    		
-			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
-			    	}
-			    	console.log(arr);
-			    	// arr[0]=result.skimlinksProductAPI.products.title;
-			    	$( "#op3").autocomplete({source:arr});
-			    	
-			    });
+				 //do something
+				 var arr=new Array();
+				 arr.length=0;
+				 console.log(arr);
+				 var s_string=document.getElementById("op3").value;
+				 console.log(s_string);
+				 Meteor.call('apiresult',s_string,0,10,function(error,resul){
+					
+					console.log(resul.skimlinksProductAPI.numFound);
+					console.log(resul.skimlinksProductAPI.products[0].title);
+					
+					for(var i=0;i<10;i++)
+					{
+						
+						arr[i]=resul.skimlinksProductAPI.products[i].title;
+					}
+					console.log(arr);
+					// arr[0]=result.skimlinksProductAPI.products.title;
+					$( "#op3").autocomplete({source:arr});
+					
+				 });
 		}
 				
 		},
@@ -252,32 +280,32 @@ function deleteEvent()
 			clearTimeout(typingTimer);
 			if ($('#op4').val)
 			{
-			    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+				 typingTimer = setTimeout(doneTyping, doneTypingInterval);
 			}
 			
 			//user is "finished typing," do something
 			function doneTyping () {
-			    //do something
-			    var arr=new Array();
-			    arr.length=0;
-			    console.log(arr);
-			    var s_string=document.getElementById("op4").value;
-			    console.log(s_string);
-			    Meteor.call('apiresult',s_string,0,10,function(error,resul){
-			    	
-			    	console.log(resul.skimlinksProductAPI.numFound);
-			    	console.log(resul.skimlinksProductAPI.products[0].title);
-			    	
-			    	for(var i=0;i<10;i++)
-			    	{
-			    		
-			    		arr[i]=resul.skimlinksProductAPI.products[i].title;
-			    	} 
-			    	console.log(arr);
-			    	// arr[0]=result.skimlinksProductAPI.products.title;
-			    	$( "#op4").autocomplete({source:arr});
-			    	
-			    });
+				 //do something
+				 var arr=new Array();
+				 arr.length=0;
+				 console.log(arr);
+				 var s_string=document.getElementById("op4").value;
+				 console.log(s_string);
+				 Meteor.call('apiresult',s_string,0,10,function(error,resul){
+					
+					console.log(resul.skimlinksProductAPI.numFound);
+					console.log(resul.skimlinksProductAPI.products[0].title);
+					
+					for(var i=0;i<10;i++)
+					{
+						
+						arr[i]=resul.skimlinksProductAPI.products[i].title;
+					} 
+					console.log(arr);
+					// arr[0]=result.skimlinksProductAPI.products.title;
+					$( "#op4").autocomplete({source:arr});
+					
+				 });
 		}
 				
 		},
@@ -348,28 +376,8 @@ function deleteEvent()
 
 		}
 	
-  		});
-	Template.similarProducts.helpers({
-		details:function()
-		{
-			var title=this.title;
-			var title1=title.slice(0,15);
-			console.log(title1);
-				Meteor.call('apiresult',title1,0,10,function(e,results)
-					{
-						console.log(results);
-						Session.set("productnameSearch",results);
-					});
-								
-		},
-		similarProducts:function(){
-					var pid=Session.get("productnameSearch");
-					console.log(pid);
-					return pid;		
-			}
-		
-		
-	});
+		});
+	
 	Template.questions.events({
 		//auto complete action to question page questio field
 		'focus input.focus_event':function()
@@ -383,8 +391,8 @@ function deleteEvent()
 		'click input.create-ques': function () {
 
 			if ( Meteor.user()) 
-    		{
-		   		var quest=document.getElementById('question').value;
+			{
+					var quest=document.getElementById('question').value;
 				var u_id=Meteor.userId();
 				var dat=new Date();
 				var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
@@ -398,22 +406,22 @@ function deleteEvent()
 				alert("Login to Create Question")
 			}
 		
-    		}
+			}
 
 	});
 	// adding vote: checks whether user already voted or not, if not add the vote
 	Template.product_thumbnail.events({
-    	'click input.add-vote': function () {
+		'click input.add-vote': function () {
 		
-				var option_data=Polls_Coll.findOne({_id:this._id}).option1[0].pd;		
+				var option_data=Polls_Coll.findOne({_id:this._id}).option1[0].pd;    
 				//checking whether any user logged-in or not
 				if( Meteor.user())
 				{
 					//if user logged-in removing warning message on the field
 					document.getElementById('warning').innerHTML="";
 					var u_id=Meteor.userId();
-					//checking whether user already voted on any of the options			
-					var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();				
+					//checking whether user already voted on any of the options       
+					var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();            
 					var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_id}}}).count();
 					var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_id}}}).count();
 					var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_id}}}).count();
@@ -435,10 +443,10 @@ function deleteEvent()
 						document.getElementById('warning').innerHTML="* Already voted on this question";
 					}
 				 }
-			 	//if user not logged-in showing warning message 
+				//if user not logged-in showing warning message 
 			 else
 			 {
-			 		document.getElementById('warning').innerHTML="* Login to vote";
+					document.getElementById('warning').innerHTML="* Login to vote";
 			 }
 		}
 		});
@@ -454,22 +462,34 @@ function deleteEvent()
 			document.getElementById("search-warning").innerHTML="* Enter words to search";
 		},
 	
-  		'keypress input.focus_eve': function (evt) {
-    	if (evt.which === 13) 
-    	{
-    		console.log("event occured")
-      		var search_elem=document.getElementById("autocomplete").value;
-			console.log(search_elem);
-			if(search_elem)
-			{
-				Session.set("search_string",search_elem);
-				Router.go('searchpage');
-			}
-			document.getElementById("search-warning").innerHTML="* Enter words to search";
-    	}
-  	}
+		'keypress input.focus_eve': function (evt) {
+				if (evt.which === 13) 
+				{
+					console.log("event occured")
+						var search_elem=document.getElementById("autocomplete").value;
+					console.log(search_elem);
+					if(search_elem)
+					{
+						Session.set("search_string",search_elem);
+						Router.go('searchpage');
+					}
+					document.getElementById("search-warning").innerHTML="* Enter words to search";
+				}
+		},
+		'click #prevButton':function(){
+			var start=Session.get("spage_start_number")-10;
+			var end=Session.get("spage_end_number");
 
+			Session.set("spage_start_number", start);
+			Session.set("spage_end_number", end);
+		},
+		'click #nextButton':function(){
+			var start=Session.get("spage_start_number")+10;
+			var end=Session.get("spage_end_number");
 
+			Session.set("spage_start_number", start);
+			Session.set("spage_end_number", end);  
+		}
 	})
 	
 	//Search page helpers
@@ -478,7 +498,10 @@ function deleteEvent()
 		
 				var s_str=Session.get("search_string");
 				//calling server method to search for a element in the api
-				Meteor.call('apiresult',s_str,0,10,function(e,result)
+				var start=Session.get("spage_start_number");
+				var end=Session.get("spage_end_number");
+
+				Meteor.call('apiresult',s_str,start,end,function(e,result)
 				{
 					console.log(result);
 					Session.set("object",result);
@@ -488,7 +511,7 @@ function deleteEvent()
 				//get the result and return the cursor to the user
 				var abc=Session.get("object");
 				console.log(abc);
-				return abc;		
+				return abc;    
 		},
 		
 		//returning results from the polls
@@ -500,14 +523,14 @@ function deleteEvent()
 		ques_result:function(){
 					var search_element=Session.get("search_string");
 					return Ques_Coll.find({question:{$regex:search_element+"*"}});
-					}										
+					}                             
 							
 	});
 	
 	Template.product_thumbnail.helpers({
 		op1_votes:function(){
 		
-		return	Polls_Coll.findOne({_id:this._id}).option1[0].ids.length;
+		return   Polls_Coll.findOne({_id:this._id}).option1[0].ids.length;
 		},
 		op_id1:function()
 		{
@@ -530,19 +553,19 @@ function deleteEvent()
 		
 		});
 		
-	//second option thumbnail	
+	//second option thumbnail  
 	Template.product_thumbnail_two.events({
-    		'click input.add-vote': function () {
+			'click input.add-vote': function () {
 			
-				var option_data=Polls_Coll.findOne({_id:this._id}).option2[0].pd;		
-			//checking whether user logged-in or not	
-			if( Meteor.user())	
+				var option_data=Polls_Coll.findOne({_id:this._id}).option2[0].pd;    
+			//checking whether user logged-in or not  
+			if( Meteor.user())   
 			{
 				//if logged-in remove the warning message
 				document.getElementById('warning').innerHTML="";
 				var u_id=Meteor.userId();
 				//checking whether user already voted on this question or not
-				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();				
+				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();            
 				var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_id}}}).count();
 				var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_id}}}).count();
 				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_id}}}).count();
@@ -564,7 +587,7 @@ function deleteEvent()
 			 //if user not logged-in display warning message
 			 else
 			 {
-			 		document.getElementById('warning').innerHTML="* Login to vote";
+					document.getElementById('warning').innerHTML="* Login to vote";
 			 }
 			
 		}
@@ -573,7 +596,7 @@ function deleteEvent()
 	Template.product_thumbnail_two.helpers({
 		op2_votes:function(){
 		
-				return	Polls_Coll.findOne({_id:this._id}).option2[0].ids.length;
+				return   Polls_Coll.findOne({_id:this._id}).option2[0].ids.length;
 		},
 		op_id2:function()
 		{
@@ -595,20 +618,20 @@ function deleteEvent()
 		});
 		
 		
-	//third option thumbnail	
+	//third option thumbnail   
 	Template.product_thumbnail_three.events({
-    		'click input.add-vote': function () {
-    		
-    		//checking whether usr loggedin or not
+			'click input.add-vote': function () {
+			
+			//checking whether usr loggedin or not
 			if( Meteor.user())
 			{
 				//if user logged-in deleting the warning message
 				document.getElementById('warning').innerHTML="";
-				var option_data=Polls_Coll.findOne({_id:this._id}).option3[0].pd;		
+				var option_data=Polls_Coll.findOne({_id:this._id}).option3[0].pd;    
 				var u_id=Meteor.userId();
 				
 				//checking whether user already voted on this question or not
-				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();				
+				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();            
 				var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_id}}}).count();
 				var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_id}}}).count();
 				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_id}}}).count();
@@ -630,14 +653,14 @@ function deleteEvent()
 			 //if user not logged-in showing error message label on the page
 			 else
 			 {
-			 		document.getElementById('warning').innerHTML="* Login to vote";
+					document.getElementById('warning').innerHTML="* Login to vote";
 			 }
 		}
 		});
 	Template.product_thumbnail_three.helpers({
 		op3_votes:function(){
 		
-			return	Polls_Coll.findOne({_id:this._id}).option3[0].ids.length;
+			return   Polls_Coll.findOne({_id:this._id}).option3[0].ids.length;
 		},
 		op_id3:function()
 		{
@@ -660,16 +683,16 @@ function deleteEvent()
 		
 	//fourth option thumbnail
 	Template.product_thumbnail_four.events({
-    		'click input.add-vote': function () {	
-    		//checking whether user logged-in or not
-    		if( Meteor.user())
-    		{
-    			//if user logged-in removing the warning message
-    			document.getElementById('warning').innerHTML="";
-				var option_data=Polls_Coll.findOne({_id:this._id}).option4[0].pd;		
+			'click input.add-vote': function () {  
+			//checking whether user logged-in or not
+			if( Meteor.user())
+			{
+				//if user logged-in removing the warning message
+				document.getElementById('warning').innerHTML="";
+				var option_data=Polls_Coll.findOne({_id:this._id}).option4[0].pd;    
 				var u_id=Meteor.userId();
 				//checking whether user already voted on this question or not
-				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();				
+				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();            
 				var u_exist2=Polls_Coll.find({_id:this._id,option2:{$elemMatch:{ids:u_id}}}).count();
 				var u_exist3=Polls_Coll.find({_id:this._id,option3:{$elemMatch:{ids:u_id}}}).count();
 				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_id}}}).count();
@@ -691,14 +714,14 @@ function deleteEvent()
 			 //if user not logged-in displaying warning message
 			 else
 			 {
-			 		document.getElementById('warning').innerHTML="* Login to vote";
+					document.getElementById('warning').innerHTML="* Login to vote";
 			 }
 		}
 		});
 	Template.product_thumbnail_four.helpers({
 		op4_votes:function(){
 		
-			return	Polls_Coll.findOne({_id:this._id}).option4[0].ids.length;
+			return   Polls_Coll.findOne({_id:this._id}).option4[0].ids.length;
 		},
 		op_id4:function()
 		{
@@ -720,10 +743,10 @@ function deleteEvent()
 		
 	
 	Template.display_ques.events({
-    	'click button.clik-eve': function () {
-    	
-	    	if( Meteor.user())	
-	    	{
+		'click button.clik-eve': function () {
+		
+			if( Meteor.user())   
+			{
 				//adding comment along with the username and votes to the Ques_Coll collection
 				var asd=document.getElementById("comment_text").value;
 				var u_name=Meteor.userId();
@@ -754,11 +777,11 @@ function deleteEvent()
 		});
 		
 	Template.polls_coll.helpers({
-   		 polls_coll: function()
+			 polls_coll: function()
 		 {
-     			 return Polls_Coll.find();
-    		 }
-  		});
+				 return Polls_Coll.find();
+			 }
+		});
 
 	Template.display_poll.helpers({
 		uniqueid:function()
@@ -815,7 +838,7 @@ function deleteEvent()
 			return Polls_Coll.findOne({_id:this._id}).option4[0].pd;
 		}
 
-	});	
+	});   
 	
 	Template.display_ques.helpers({
 
@@ -837,9 +860,9 @@ function deleteEvent()
 		all_comments:function()
 		{
 			var coll = Ques_Coll.findOne(this._id);
-	    		return _.sortBy(coll.comments, function(comment) {
-	      		return -comment.vCount;
-    		})
+				return _.sortBy(coll.comments, function(comment) {
+					return -comment.vCount;
+			})
 		}/*,
 		pagination:function()
 		{
@@ -850,7 +873,7 @@ function deleteEvent()
 	});
 	
 	Template.display_ques.destroyed = function(){
-  			pagination.destroy();
+			pagination.destroy();
 		}
 	Template.display_product.helpers({
 	detail:function()
@@ -870,7 +893,7 @@ function deleteEvent()
 	product:function(){
 				var pid=Session.get("productIdSearch");
 				console.log(pid);
-				return pid;		
+				return pid;    
 		}
 	
 	});
@@ -895,10 +918,10 @@ function deleteEvent()
 	},
 	
   'keypress input.focus_eve': function (evt) {
-    if (evt.which === 13) 
-    {
-    	console.log("event occured")
-      	var search_elem=document.getElementById("autocomplete").value;
+	 if (evt.which === 13) 
+	 {
+		console.log("event occured")
+			var search_elem=document.getElementById("autocomplete").value;
 		console.log(search_elem);
 		if(search_elem)
 		{
@@ -906,7 +929,7 @@ function deleteEvent()
 			Router.go('searchpage');
 		}
 		document.getElementById("search-warning").innerHTML="* Enter words to search";
-    }
+	 }
   }
 
 	});
@@ -914,39 +937,39 @@ function deleteEvent()
 	
 
 		Template.index.helpers({
-   		pollscoll: function()
+			pollscoll: function()
 		{
 			
-		 	
-	 		return Polls_Coll.find({},{sort: {created_at: -1}},{limit : 10});
-    	},
+			
+			return Polls_Coll.find({},{sort: {created_at: -1}},{limit : 10});
+		},
 		ques_coll: function()
 		 {
-     			 return Ques_Coll.find({}, {sort: {created_at: -1}},{limit : 10});
-    	 },
-    	 categories:function()
-    	 {
-    	 	console.log("client method called");
-    	 	Meteor.call("returnCategories",function(e,r){
+				 return Ques_Coll.find({}, {sort: {created_at: -1}},{limit : 10});
+		 },
+		 categories:function()
+		 {
+			console.log("client method called");
+			Meteor.call("returnCategories",function(e,r){
 
-    	 		console.log(r);
-    	 	})
-    	 	console.log("client method returned");
-    	 }
-  		});
+				console.log(r);
+			})
+			console.log("client method returned");
+		 }
+		});
 	Template.my_polls.helpers({
-   		 pollscoll: function()
+			 pollscoll: function()
 		 {
 
-     			 return Polls_Coll.find({owner:Meteor.userId()});
-    		 }
+				 return Polls_Coll.find({owner:Meteor.userId()});
+			 }
 	});
 	Template.my_ques.helpers({
 		quescoll: function()
 		 {
-     			 return Ques_Coll.find({owner:Meteor.userId()});
-    		 }
-  		});
+				 return Ques_Coll.find({owner:Meteor.userId()});
+			 }
+		});
 
 Template.myaccount.events({
 'click .deletePoll':function(){
@@ -958,4 +981,50 @@ Template.myaccount.events({
 	console.log(this._id);
 	Ques_Coll.remove({_id:this._id})
 }
-})
+});
+
+// start of similarproduct template events and helpers
+
+Template.similarProducts.events({
+	'click #prevButton':function(){
+		var start=Session.get("ppage_start_number")-5;
+		var end=Session.get("ppage_end_number");
+
+		Session.set("ppage_start_number", start);
+		Session.set("ppage_end_number", end);
+	},
+	'click #nextButton':function(){
+		var start=Session.get("ppage_start_number")+5;
+		var end=Session.get("ppage_end_number");
+
+		Session.set("ppage_start_number", start);
+		Session.set("ppage_end_number", end);  
+	}
+});
+
+//similarproduct template 
+Template.similarProducts.helpers({
+	details:function()
+	{
+		var title=this.title;
+		var title1=title.slice(0,15);
+		console.log(title1);
+		
+		var start=Session.get("ppage_start_number");
+		var end=Session.get("ppage_end_number");
+
+		Meteor.call('apiresult',title1,start,end,function(e,results)
+			{
+				console.log(results);
+				Session.set("productnameSearch",results);
+			});                     
+	},
+	similarProducts:function()
+	{
+		var pid=Session.get("productnameSearch");
+		console.log(pid);
+		return pid;    
+	}
+});
+
+//end of similarProducts template events and helpers

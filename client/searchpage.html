@@ -22,7 +22,7 @@
 			<!-- Displaying search string results from the API -->
 	    		<h3 class="label-design">Products</h3>
 			{{#each resultCursor.skimlinksProductAPI.products}}
-				<a href="{{pathFor 'product'}}"><img  width="60px" height="50px" src={{images.imageThumb1Url}}> {{title}}</a> ${{price}}<br>
+				<label><label  id="maxLabel"><a href="{{pathFor 'product'}}"><img  width="60px" height="50px" src={{images.imageThumb1Url}}> {{title}}</a></label> {{currency}}  {{price}}</label>
 				
 			{{/each}}
 			 <!-- Pagination,previous and next buttons-->

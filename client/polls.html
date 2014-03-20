@@ -19,6 +19,7 @@
 	<br><br>        
 </div>
 <center>
+	<label id="warning" class="alert alert-warning"> </label>
 <input class="bigbutton create-poll" type="button" value="Create" />
 	<div class="divider" />
 	<input class="bigbutton" type="button" value="Cancel" />
@@ -29,6 +30,7 @@
 <template name="product_thumb1">
 <!-- {{pro}} -->
 	<!-- Displaying values on focus leave of the textbox	 -->
+	<div class="col-lg-3  col-md-6 col-xs-12 " >
 	 <li STYLE="height:280px;width:100%;border:2px solid black">
 
 					<b>Title:</b><p id="op1_title">  {{product_title}}</p><br>
@@ -36,6 +38,7 @@
 					<b>Price:</b><p id="op1_price">  {{product_price}}</p><br>
 					<b>Spec's:</b><p id="op1_spec">  {{product_specs}}</p><br>
 	</li>
+	</div>
 </template>
 
 

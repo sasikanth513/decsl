@@ -41,14 +41,22 @@
 </template>
 
 <template name="header">
+
+	
 	<div class="navbar">
 		<div class="navbar-inner"> 
 			<div class="container">
 				<div class="nav pull-right">
+				<ul  class="nav navbar-nav navbar-right">
+					<li>
 					{{#if currentUser}}
-						<a href="{{pathFor 'myaccount' }}"><label>My Account</label></a>	
+						<a href="{{pathFor 'myaccount' }}">My Account</a>	
 					{{/if}}	
-					{{loginButtons align="right"}}
+					</li>
+					<li>
+						{{loginButtons align="right"}}
+					</li>
+				</ul>
 				</div>
 			</div>
 		</div>

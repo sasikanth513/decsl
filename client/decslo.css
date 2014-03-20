@@ -79,6 +79,11 @@ input.search-btn
 	font-size:1.1em;
 }
 
+#maxLabel
+{
+	width: 90%;
+	overflow: hidden;
+}
 
 /***NOW STYLE THE BUTTON'S HOVER AND FOCUS STATES***/
 

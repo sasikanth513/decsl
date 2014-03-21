@@ -192,7 +192,7 @@ function deleteEvent()
 					}
 					console.log(arr);
 					
-					$( "#op1").autocomplete({source:resul});
+					$( "#op1").autocomplete({source:arr});
 					
 				 });
 		}
@@ -392,7 +392,7 @@ function deleteEvent()
 
 			if ( Meteor.user()) 
 			{
-					var quest=document.getElementById('question').value;
+				var quest=document.getElementById('question').value;
 				var u_id=Meteor.userId();
 				var dat=new Date();
 				var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
@@ -753,10 +753,18 @@ function deleteEvent()
 			{
 				//adding comment along with the username and votes to the Ques_Coll collection
 				var asd=document.getElementById("comment_text").value;
-				var u_name=Meteor.userId();
+				if(Meteor.user().username)
+				{
+					var u_name=Meteor.user().username;
+				}
+				else 
+				{
+					var u_name=Meteor.user().profile.name;
+				}
 				var cValue=0;
 				console.log(this._id);
-				Ques_Coll.update({_id:this._id},{$push:{comments:{uname:u_name,cmt_text:asd,vCount:cValue,votes:[]}}});
+				console.log(u_name);
+				Ques_Coll.update({_id:this._id},{$push:{comments:{uname:u_name,uid:Meteor.userId(),cmt_text:asd,vCount:cValue,votes:[]}}});
 			}
 			else
 			{
@@ -855,6 +863,7 @@ function deleteEvent()
 		{
 			return abc;
 		},
+
 		/*details:function()
 		{
 			var url = window.location.pathname;

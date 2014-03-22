@@ -110,6 +110,38 @@ Accounts.config({
 			//var result="55555";
 			return result;
 	}
+
+	function Facebook(accessToken) {
+	    this.fb = Meteor.require('fbgraph');
+	    this.accessToken = accessToken;
+	    this.fb.setAccessToken(this.accessToken);
+	    this.options = {
+	        timeout: 3000,
+	        pool: {maxSockets: Infinity},
+	        headers: {connection: "keep-alive"}
+	    }
+	    this.fb.setOptions(this.options);
+	}
+
+	Facebook.prototype.query = function(query, method) {
+	    var self = this;
+	    var method = (typeof method === 'undefined') ? 'get' : method;
+	    var data = Meteor.sync(function(done) {
+	        self.fb[method](query, function(err, res) {
+	            done(null, res);
+	        });
+	    });
+	    return data.result;
+	}
+
+	Facebook.prototype.getUserData = function() {
+	    return this.query('me');
+	}
+
+	Facebook.prototype.getFriendsData = function() {
+	    return this.query('/me/friends?fields=username');
+	}
+
 // On server start-up intialize all these methods
   Meteor.startup(function() {
   	process.env.MAIL_URL = 'smtp://postmaster%40sandbox22840.mailgun.org:redesygnsystems@smtp.mailgun.org:587';
@@ -185,7 +217,20 @@ Accounts.config({
 	      	//Methods to remove all questions in the collection
 	      	removeAllQues: function(){
 	      		return Ques_Coll.remove({});
-	      	}
+	      	},
+	      	getUserData: function() 
+		{
+		       var fb = new Facebook(Meteor.user().services.facebook.accessToken);
+		       var data = fb.getUserData();
+		       console.log("getuserdata called")
+		        return data;
+		},
+		getFriendsData: function() {   
+		    var fb = new Facebook(Meteor.user().services.facebook.accessToken);
+		    var data = fb.getFriendsData();
+		    return data;
+		}
+		
     	});
   });
 

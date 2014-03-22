@@ -36,6 +36,7 @@
 	    		{{/each}}
 			</td>
 		</table>
+		{{> fb}}
 	</div>
 </body>
 </template>
@@ -114,5 +115,13 @@
      <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
 <br></div>
 	
+</template>
+
+<template name="fb">
+    <button class="btn" id="btn-user-data">Get User Data</button>
+    <div class="well">
+        <pre id="result"></pre>
+        <pre id="result2"></pre>
+    </div>
 </template>
 

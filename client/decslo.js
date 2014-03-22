@@ -1,8 +1,7 @@
 Polls_Coll=new Meteor.Collection('polls_coll');
 Ques_Coll=new Meteor.Collection('ques_coll');
 User_Coll=new Meteor.Collection('user_coll');
-var page = new Pagination("myfirstPagination",{perPage:5});
-var pagination = new Pagination("testPagination",{perPage:2});
+
 
 //Adding pages to the iron-router
 Router.map(function(){
@@ -28,6 +27,11 @@ Router.map(function(){
 });
 
 Accounts.ui.config({
+	requestPermissions: {
+        facebook: ['email', 'user_friends', 'user_location', 'user_events', 
+            'friends_events', 'friends_location', 'friends_about_me',
+            'user_status', 'friends_status', 'read_friendlists'],
+    },
   passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
 
@@ -543,7 +547,11 @@ function deleteEvent()
 		},
 		product1:function()
 		{
-			var coll_var1=Polls_Coll.findOne({_id:this._id}).option1[0].pro_id;
+			var coll_var1=Polls_Coll.findOne({_id:this._id});
+			if(!coll_var1)
+			{
+				var var1_coll=coll_var1.option1[0].pro_id
+			}
 			Meteor.call("productIdResult",coll_var1,function(error,result){
 
 					Session.set("product_results",result);
@@ -561,7 +569,7 @@ function deleteEvent()
 	Template.product_thumbnail_two.events({
 			'click input.add-vote': function () {
 			
-				var option_data=Polls_Coll.findOne({_id:this._id}).option2[0].pd;    
+			var option_data=Polls_Coll.findOne({_id:this._id}).option2[0].pd;	
 			//checking whether user logged-in or not  
 			if( Meteor.user())   
 			{
@@ -576,7 +584,7 @@ function deleteEvent()
 				if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
 				{
 					console.log("name not found");
-					console.log(option_data);
+					
 					//Inserting name into the voted list
 					Meteor.call('updatePosts2',this._id,option_data,u_id,function(e,result){
 							console.log(result);
@@ -631,7 +639,7 @@ function deleteEvent()
 			{
 				//if user logged-in deleting the warning message
 				document.getElementById('warning').innerHTML="";
-				var option_data=Polls_Coll.findOne({_id:this._id}).option3[0].pd;    
+				 var option_data=Polls_Coll.findOne({_id:this._id}).option3[0].pd;  
 				var u_id=Meteor.userId();
 				
 				//checking whether user already voted on this question or not
@@ -642,7 +650,7 @@ function deleteEvent()
 				if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
 				{
 					console.log("name not found");
-					console.log(option_data);
+					
 					//Inserting name into the voted list
 					Meteor.call('updatePosts3',this._id,option_data,u_id,function(e,result){
 							console.log(result);
@@ -693,7 +701,7 @@ function deleteEvent()
 			{
 				//if user logged-in removing the warning message
 				document.getElementById('warning').innerHTML="";
-				var option_data=Polls_Coll.findOne({_id:this._id}).option4[0].pd;    
+				 var option_data=Polls_Coll.findOne({_id:this._id}).option4[0].pd;
 				var u_id=Meteor.userId();
 				//checking whether user already voted on this question or not
 				var u_exist=Polls_Coll.find({_id:this._id,option1:{$elemMatch:{ids:u_id}}}).count();            
@@ -702,8 +710,8 @@ function deleteEvent()
 				var u_exist4=Polls_Coll.find({_id:this._id,option4:{$elemMatch:{ids:u_id}}}).count();
 				if(u_exist===0 && u_exist2===0 && u_exist3===0 && u_exist4===0)
 				{
-					alert("name not found");
-					console.log(option_data);
+					console.log("name not found");
+					
 					//Inserting name into the voted list
 					Meteor.call('updatePosts4',this._id,option_data,u_id,function(e,result){
 							console.log(result);
@@ -804,19 +812,8 @@ function deleteEvent()
 		},
 		unique_id:function()
 		{
-
 			return abc;
-
 		},
-		/*details:function()
-		{
-			var url = window.location.pathname;
-			var id = url.substring(url.lastIndexOf('/') + 1);
-			var id1 =this._id;
-			console.log(id);
-			console.log(id1);
-			return Polls_Coll.find( { _id: id } )
-		},*/
 		id_op1:function()
 		{
 			return this._id+"1";
@@ -831,11 +828,20 @@ function deleteEvent()
 		},
 		id_op4:function()
 		{
+			console.log("id_op4",+this._id)
 			return this._id+"4";
 		},
 		product_title1:function()
 		{
-			return Polls_Coll.findOne({_id:this._id}).option1[0].pd;
+			var poll=Polls_Coll.findOne({_id:this._id});
+			if(!poll) 
+			{
+					return '';
+			}
+			else
+			{
+  				return poll.option1[0].pd;
+			}
 		},
 		product_title2:function()
 		{
@@ -1041,3 +1047,16 @@ Template.similarProducts.helpers({
 });
 
 //end of similarProducts template events and helpers
+
+Template.fb.events({
+    'click #btn-user-data': function(e) {
+        Meteor.call('getUserData', function(err, data) {
+             $('#result2').text(JSON.stringify(data, undefined, 4));
+         });
+        Meteor.call('getFriendsData', function(err, data2) { 
+        	$('#result2').text(JSON.stringify(data2, undefined, 4));
+        	console.log(data2);
+        	console.log(data2.data.length);
+        });
+    }
+});

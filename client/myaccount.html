@@ -8,6 +8,10 @@
 	<div class="cmt-avg">
 	{{> my_ques}}
 	</div>
+<h3 class="label-design-big" align=left>Polls from your friends</h3><br>
+	<div class="cmt-avg">
+	{{> fb}}
+	</div>
 
 </template>
 
@@ -31,4 +35,20 @@
 	</tr>
 	{{/each}}
 </table>
+</template>
+
+<template name="fb">
+{{#each friendsPolls.data}}
+	{{#if username}}
+		{{questions}}
+	{{/if}}
+		
+    {{/each}}
+	
+
+{{#each userQuestions}}
+	<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
+{{/each}}
+<br/><br>
+
 </template>

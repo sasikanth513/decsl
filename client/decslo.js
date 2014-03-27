@@ -891,9 +891,7 @@ function deleteEvent()
 		}*/
 	});
 	
-	Template.display_ques.destroyed = function(){
-			pagination.destroy();
-		}
+	
 	Template.display_product.helpers({
 	detail:function()
 	{
@@ -1059,4 +1057,34 @@ Template.fb.events({
         	console.log(data2.data.length);
         });
     }
+});
+
+Template.fb.helpers({
+	friendsPolls: function () {
+		Meteor.call('getFriendsData', function(err, data2) { 
+        		
+        		Session.set("fbfdata", data2);
+        		
+        	});
+	return Session.get("fbfdata");
+	},
+	questions:function(){
+		
+		Meteor.call('isFbExists', this.username, function (error, result) {
+			if(result)
+			{
+				var fbfid=result._id;				
+				Session.set("fbFriendsID", fbfid);
+			}
+		});
+		//return Session.get("fbFriendsQues");
+	},
+	userQuestions:function(){
+		var fbfID=Session.get("fbFriendsID");
+		return Ques_Coll.find({owner:fbfID});
+	}
+});
+
+Template.fb.events({
+    
 });

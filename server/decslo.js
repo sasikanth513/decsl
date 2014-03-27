@@ -226,9 +226,16 @@ Accounts.config({
 		        return data;
 		},
 		getFriendsData: function() {   
-		    var fb = new Facebook(Meteor.user().services.facebook.accessToken);
+		    var fb = new Facebook(Meteor.user().services.facebook.accessToken); 
 		    var data = fb.getFriendsData();
 		    return data;
+		},
+		isFbExists:function(arg1){
+			var efg=Meteor.users.findOne({"services.facebook.username":arg1},{fields: {'_id': 1}});
+			
+				return efg;
+	
+			
 		}
 		
     	});

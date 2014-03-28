@@ -2,7 +2,7 @@ Polls_Coll=new Meteor.Collection('polls_coll');
 Ques_Coll=new Meteor.Collection('ques_coll');
 User_Coll=new Meteor.Collection('user_coll');
 
-
+var ffruids=new Array();
 //Adding pages to the iron-router
 Router.map(function(){
 
@@ -1073,15 +1073,26 @@ Template.fb.helpers({
 		Meteor.call('isFbExists', this.username, function (error, result) {
 			if(result)
 			{
-				var fbfid=result._id;				
-				Session.set("fbFriendsID", fbfid);
+				//var fbfid=result._id;				
+				//Session.set("fbFriendsID", fbfid);
+				ffruids.push(result._id);
 			}
 		});
 		//return Session.get("fbFriendsQues");
 	},
 	userQuestions:function(){
-		var fbfID=Session.get("fbFriendsID");
-		return Ques_Coll.find({owner:fbfID});
+		// var fbfID=Session.get("fbFriendsID");
+		setTimeout(function(){
+			for(var i=0;i<=ffruids.length;i++)
+			{
+				var ee=Ques_Coll.findOne({owner:ffruids[i]});
+				Session.set("uqs", ee);
+			}
+
+		}, 2*1000);
+
+		//return Ques_Coll.find({owner:fbfID});
+		return Session.get("uqs");
 	}
 });
 

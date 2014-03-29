@@ -1,11 +1,12 @@
 <template name="searchpage">
 	<head>
 	<!-- Loginbuttons at the right corner -->
-	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
+	
 	  <title>search page</title>
 	</head>
 
 	<body>
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
 	<center>
 		<!-- Displaying searchbox and searchbutton on the page -->
 		<div class="screwl" >
@@ -45,7 +46,7 @@
 			<!-- Displaying search string reults from the questions -->
 			<h3 class="label-design">Questions</h3>
 			{{#each ques_result}}
-  			 <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</label></a>
+  			 <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png ">  {{question}}</label></a>
     		{{/each}}
 		</div>
 		

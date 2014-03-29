@@ -1,10 +1,10 @@
 <template name="questions">
 <center>
-	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
 	<p class="label-design">Enter You Question:      	<input id="question" class="focus_event" name="search-txt-box" type="text" size="80" autofocus="autofocus" placeholder="Ask Question..." /></p>
-	<input class="bigbutton create-ques" type="button" value="Ask" />
-	<div class="divider" />
-	<input class="bigbutton" type="button" value="Cancel" />
+	<input class="bigbutton create-ques" type="button" value="Ask" >
+	<div class="divider"></div>
+	<input class="bigbutton" type="button" value="Cancel" >
 </center>
 </template>
 

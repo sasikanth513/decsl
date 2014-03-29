@@ -12,9 +12,9 @@
 		</div>	</center>
 		{{categories}}
 		<div class="col-md-4 text-center" >
-			<a href="{{pathFor 'polls'}}"><input class="bigbutton" type="submit" value="Create Poll" /></a>
+			<a href={{pathFor 'polls'}}><input class="bigbutton" type="submit" value="Create Poll" /></a>
 			<a href="{{pathFor 'questions'}}"><input class="bigbutton" type="submit" value="Ask Question" /></a>
-		</div align="right">
+		</div>
 		<h3 class="label-design-big" align=left>Recent Activity</h3><br>
 	<div class="table-pop">	
 		<table width=100%>
@@ -55,7 +55,7 @@
 					{{/if}}	
 					</li>
 					<li>
-						{{loginButtons align="right"}}
+						{{> loginButtons align="right"}}
 					</li>
 				</ul>
 				</div>
@@ -102,7 +102,7 @@
 		
 	<div class="float-near">	
 	
-      <a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</a>
+      <a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</label></a>
 	</div>
 	
 </template>
@@ -112,7 +112,7 @@
 		
 	<div class="float-near">	
 
-     <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
+     <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</label></a>
 <br></div>
 	
 </template>

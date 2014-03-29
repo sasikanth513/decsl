@@ -1,7 +1,7 @@
 <template name="product">
 	<head>
 
-<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
 
 	  <title>Product Description</title>
 	</head>
@@ -74,7 +74,7 @@
 		{{details}}
 			{{#each similarProducts.skimlinksProductAPI.products}}
 			<tr>
-				<td><a href="{{pathFor 'product'}}"><img  width="60px" height="50px" src={{images.imageThumb1Url}}></td>
+				<td><a href="{{pathFor 'product'}}"><img  width="60px" height="50px" src={{images.imageThumb1Url}}></a></td>
 				<td>{{title}}</td>
 				<td>   {{currency}} {{price}}</td>
 				<td>{{merchant}}</td>

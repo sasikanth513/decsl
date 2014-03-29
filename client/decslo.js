@@ -2,28 +2,43 @@ Polls_Coll=new Meteor.Collection('polls_coll');
 Ques_Coll=new Meteor.Collection('ques_coll');
 User_Coll=new Meteor.Collection('user_coll');
 
+fbques_coll=new Meteor.Collection('fbques_coll');
+fbpolls_coll=new Meteor.Collection('fbpolls_coll');
+
 var ffruids=new Array();
 //Adding pages to the iron-router
 Router.map(function(){
 
 	this.route('index', {path: '/' });
-		this.route('polls', {path:'/polls/'});
-		this.route('myaccount', {path:'/myaccount/'});
+		this.route('polls', {path:'/polls/',
+		fastRender: true
+	});
+		this.route('myaccount', {path:'/myaccount/',
+			fastRender: true
+	});
 	this.route('pollpage', {path:'/pollpage/:_id',
 		 data:  function(){
 					 
 					 return Polls_Coll.findOne({_id:this.params._id});
-				}
+				},
+		fastRender: true
 	 });
 	this.route('quespage', {path:'/quespage/:_id',
 		 data:  function(){
 					 
 					 return Ques_Coll.findOne({_id:this.params._id});
-				}
+				},
+		fastRender: true
 	 });
-	this.route('questions', {path:'/questions'});
-	this.route('searchpage', {path:'/searchpage/'});
-	this.route('product', {path:'/product/:productId'});
+	this.route('questions', {path:'/questions',
+		fastRender: true
+	});
+	this.route('searchpage', {path:'/searchpage/',
+		fastRender: true
+	});
+	this.route('product', {path:'/product/:productId',
+		fastRender: true
+	});
 });
 
 Accounts.ui.config({
@@ -52,7 +67,8 @@ Accounts.ui.config({
 			Meteor.subscribe('quesCollection');
 			Meteor.subscribe('userCollection');
 			Meteor.subscribe('productmobiles');
-			
+			Meteor.subscribe('fbquesCollection');
+			Meteor.subscribe('fbpollsCollection');
 		});
 				
 	
@@ -114,7 +130,15 @@ function deleteEvent()
 				var dat=new Date();
 				var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
 				console.log(c_time);
-				var nnid=Polls_Coll.insert({question: quest,owner:u_id,created_at:c_time,
+				if(Meteor.user().username)
+				{
+					var u_name=Meteor.user().username;
+				}
+				else 
+				{
+					var u_name=Meteor.user().profile.name;
+				}
+				var nnid=Polls_Coll.insert({question: quest,owner:u_id,owner_name:u_name,created_at:c_time,
 							option1:[{pd:op1,pro_id:pro_id1,ids:[]}],
 							option2:[{pd:op2,pro_id:pro_id2,ids:[]}],
 							option3:[{pd:op3,pro_id:pro_id3,ids:[]}],
@@ -401,7 +425,15 @@ function deleteEvent()
 				var dat=new Date();
 				var c_time=dat.getFullYear()+""+dat.getMonth()+""+dat.getDate()+""+dat.getHours()+""+dat.getMinutes()+""+dat.getSeconds()+""+dat.getMilliseconds();
 				console.log(c_time);
-				var new_id=Ques_Coll.insert({question: quest,created_at:c_time,owner:u_id,comments:[]});
+				if(Meteor.user().username)
+				{
+					var u_name=Meteor.user().username;
+				}
+				else 
+				{
+					var u_name=Meteor.user().profile.name;
+				}
+				var new_id=Ques_Coll.insert({question: quest,created_at:c_time,owner:u_id,owner_name:u_name,comments:[]});
 				console.log(new_id);
 				Router.go('quespage', {_id:new_id});
 			}
@@ -547,12 +579,17 @@ function deleteEvent()
 		},
 		product1:function()
 		{
-			var coll_var1=Polls_Coll.findOne({_id:this._id});
+			/*var coll_var1=Polls_Coll.findOne({_id:this._id});
 			if(!coll_var1)
 			{
 				var var1_coll=coll_var1.option1[0].pro_id
 			}
 			Meteor.call("productIdResult",coll_var1,function(error,result){
+
+					Session.set("product_results",result);
+			})*/
+			var coll_var=Polls_Coll.findOne({_id:this._id}).option1[0].pro_id;
+			Meteor.call("productIdResult",coll_var,function(error,result){
 
 					Session.set("product_results",result);
 			})
@@ -1046,56 +1083,105 @@ Template.similarProducts.helpers({
 
 //end of similarProducts template events and helpers
 
-Template.fb.events({
-    'click #btn-user-data': function(e) {
-        Meteor.call('getUserData', function(err, data) {
-             $('#result2').text(JSON.stringify(data, undefined, 4));
-         });
-        Meteor.call('getFriendsData', function(err, data2) { 
-        	$('#result2').text(JSON.stringify(data2, undefined, 4));
-        	console.log(data2);
-        	console.log(data2.data.length);
-        });
-    }
+Template.fbques.events({
+    
 });
 
-Template.fb.helpers({
-	friendsPolls: function () {
+Template.fbques.helpers({
+	friendsQues: function () {
 		Meteor.call('getFriendsData', function(err, data2) { 
-        		
+        		console.log(data2);
         		Session.set("fbfdata", data2);
+        		
         		
         	});
 	return Session.get("fbfdata");
 	},
 	questions:function(){
+		var fbf_name=this.name;
+		Meteor.call('isFbExists', this.username, function (error, result) {
+			if(result)
+			{
+				console.log(result);
+				// console.log(Ques_Coll.find({owner:result._id}));
+				var ee=Ques_Coll.find({owner:result._id});
+				//return ee;
+				ee.forEach(function (row) {
+					//console.log(fbques_coll.insert({qid:row._id,question:row.question,owner:row.owner}));
+					if(row._id)
+					{
+						fbques_coll.insert({_id:row._id,question:row.question,created_at:row.created_at,owner_name:row.owner_name});
+					}
+					/*var mydiv = document.getElementById("sss");
+					console.log(row.question);
+					var frag ="<a href=/quespage/"+row._id+">" + row.question+"</a>      -"+fbf_name+"<br>";
+					mydiv.innerHTML = mydiv.innerHTML + frag;*/
+					
+				});				
+			}
+		});
+		
+	},
+	fb_ques:function(){
+		/*var myArray = fbques_coll.find({},{sort: {created_at: -1}}).fetch();
+		var distinctArray = _.uniq(myArray, false, function(d) {return d.qid});
+		console.log("distinctArray" + distinctArray);
+		return distinctArray;*/
+		//var  ef= _.pluck(distinctArray, 'qid');
+
+		return fbques_coll.find({},{sort: {created_at: -1}});
+		
+	},
+	clearColl:function(){
+		Meteor.call('removefbQues', function (error, result) {});
+	}
+});				
+
+
+
+Template.fbpolls.events({
+    
+});
+
+Template.fbpolls.helpers({
+	friendsQuess: function () {
+		Meteor.call('getFriendsData', function(err, data3) { 
+        		console.log(data3);
+        		Session.set("fbfpolldata", data3);
+        		
+        		
+        	});
+	return Session.get("fbfpolldata");
+	},
+	questionss:function(){
 		
 		Meteor.call('isFbExists', this.username, function (error, result) {
 			if(result)
 			{
-				//var fbfid=result._id;				
-				//Session.set("fbFriendsID", fbfid);
-				ffruids.push(result._id);
+				console.log(result);
+				
+				var ee=Polls_Coll.find({owner:result._id});
+				
+				ee.forEach(function (rows) {
+					
+					if(rows._id)
+					{
+						console.log("inserting")
+						fbpolls_coll.insert({_id:rows._id,question:rows.question,created_at:rows.created_at,owner_name:rows.owner_name});
+					}
+					
+				});				
 			}
 		});
-		//return Session.get("fbFriendsQues");
+		
 	},
-	userQuestions:function(){
-		// var fbfID=Session.get("fbFriendsID");
-		setTimeout(function(){
-			for(var i=0;i<=ffruids.length;i++)
-			{
-				var ee=Ques_Coll.findOne({owner:ffruids[i]});
-				Session.set("uqs", ee);
-			}
-
-		}, 2*1000);
-
-		//return Ques_Coll.find({owner:fbfID});
-		return Session.get("uqs");
+	fb_quess:function(){
+		
+		return fbpolls_coll.find({},{sort: {created_at: -1}});
+		
+	},
+	clearColl:function(){
+		Meteor.call('removefbPolls',  function (error, result) {});
 	}
-});
+});				
 
-Template.fb.events({
-    
-});

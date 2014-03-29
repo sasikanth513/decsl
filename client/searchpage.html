@@ -1,7 +1,7 @@
 <template name="searchpage">
 	<head>
 	<!-- Loginbuttons at the right corner -->
-	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
 	  <title>search page</title>
 	</head>
 
@@ -37,7 +37,7 @@
 			<!-- Displaying seatch string results from all polls -->
 			<h3 class="label-design">Polls</h3>
     			{{#each poll_result}}
-  				<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</a><br>
+  				<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</label></a><br>
     			{{/each}}
 		</div>
 
@@ -45,7 +45,7 @@
 			<!-- Displaying search string reults from the questions -->
 			<h3 class="label-design">Questions</h3>
 			{{#each ques_result}}
-  			 <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
+  			 <a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</label></a>
     		{{/each}}
 		</div>
 		

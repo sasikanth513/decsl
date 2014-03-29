@@ -1,9 +1,13 @@
 /* CSS declarations go here */
+
 .martop
 {
 	margin-left: 60px;
 }
-
+.ownername
+{
+	padding-left: 35%;
+}
 input#search {
 
 }

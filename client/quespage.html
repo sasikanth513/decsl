@@ -1,13 +1,10 @@
 <template name="quespage">
 	<head>
-
-<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
-
 	  <title>All polls</title>
 	</head>
 
 	<body>
-		
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>	
      				
 		{{> display_ques}}
 	</body>
@@ -36,12 +33,12 @@
 					{{vCount}} <input type="image" class="add-up" src="/images/up.jpg" name="upicon">
 					</div><br>
 				<br>
-					
+					{{/each}}
 				</ul>
 			</div>	
 
 		<!--	{{{pagination}}} -->
-		{{/each}}
+		
 
 </template>
 

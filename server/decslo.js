@@ -4,6 +4,9 @@ Ques_Coll=new Meteor.Collection('ques_coll');
 User_Coll=new Meteor.Collection('user_coll');
 Product_Mobiles=new Meteor.Collection('product_mobiles');
 
+fbques_coll=new Meteor.Collection('fbques_coll');
+fbpolls_coll=new Meteor.Collection('fbpolls_coll');
+
 Accounts.config({
        sendVerificationEmail:true
 
@@ -22,6 +25,14 @@ Accounts.config({
 				//Publishing all questions to the user
 				return Ques_Coll.find({});
 			});
+		Meteor.publish('fbquesCollection',function(){
+				//Publishing all questions to the user
+				return fbques_coll.find({});
+			});
+		Meteor.publish('fbpollsCollection',function(){
+				//Publishing all questions to the user
+				return fbpolls_coll.find({});
+			});
 		Meteor.publish("email", function() {
 				if(Meteor.user().services.facebook)
 				{
@@ -32,7 +43,7 @@ Accounts.config({
 					return Meteor.users.find({_id: this.userId}, {fields: {'services.google.email': 1}}); 
 				}
 			});
-
+		
 					
 // Giving delete,update and modify control to the user(if he/she is the owner of the document) on polls collection
 		Polls_Coll.allow({
@@ -60,6 +71,31 @@ Accounts.config({
 				return  doc.owner === userId;
 			}
 	});
+
+	fbques_coll.allow({
+		insert: function (userId, doc) {
+			return true;
+		},
+		update: function (userId, doc, fields, modifier) {
+			return true;
+		},
+		remove: function (userId, doc) {
+			return true;
+		}
+	});
+	fbpolls_coll.allow({
+		insert: function (userId, doc) {
+			return true;
+		},
+		update: function (userId, doc, fields, modifier) {
+			return true;
+		},
+		remove: function (userId, doc) {
+			return true;
+		}
+	});
+
+	
 
 	
 	//search for product 
@@ -139,7 +175,7 @@ Accounts.config({
 	}
 
 	Facebook.prototype.getFriendsData = function() {
-	    return this.query('/me/friends?fields=username');
+	    return this.query('/me/friends?fields=username,name');
 	}
 
 // On server start-up intialize all these methods
@@ -222,7 +258,6 @@ Accounts.config({
 		{
 		       var fb = new Facebook(Meteor.user().services.facebook.accessToken);
 		       var data = fb.getUserData();
-		       console.log("getuserdata called")
 		        return data;
 		},
 		getFriendsData: function() {   
@@ -231,15 +266,24 @@ Accounts.config({
 		    return data;
 		},
 		isFbExists:function(arg1){
-			var efg=Meteor.users.findOne({"services.facebook.username":arg1},{fields: {'_id': 1}});
 			
-				return efg;
+			return Meteor.users.findOne({"services.facebook.username":arg1});;
 	
 			
+		},
+		removefbQues:function(){
+
+			return fbques_coll.remove({});
+		},
+		removefbPolls:function(){
+
+			return fbpolls_coll.remove({});
 		}
 		
     	});
   });
+
+
 
 	
 

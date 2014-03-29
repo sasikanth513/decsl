@@ -1,10 +1,11 @@
 <template name="pollpage">
 	<head>
-	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
+	
 	  <title>All polls</title>
 	</head>
 
 	<body>
+	<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
 	<!-- calling template -->
 		{{> polls_coll}}
 	</body>
@@ -63,8 +64,8 @@
 				</div>
 				
 	</li>
-	<center>
 	{{/each}}
+	<center>
 	<br><img src="/images/up.jpg">{{op1_votes}} Votes <br>
 				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
@@ -87,8 +88,8 @@
 				<a href="{{pathFor 'product'}}"><u>view this product</u></a>
 				</div>
 	</li>
-	<center>
 	{{/each}}
+	<center>
 	<br><img src="/images/up.jpg">{{op2_votes}} Votes <br>
 				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
@@ -111,8 +112,8 @@
 				<a href="{{pathFor 'product'}}"><u>view this product</u></a>
 				</div>
 	</li>
-	<center>
 	{{/each}}
+	<center>
 	<br><img src="/images/up.jpg">{{op3_votes}} Votes <br>
 				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>
@@ -134,8 +135,8 @@
 				<a href="{{pathFor 'product'}}"><u>view this product</u></a>
 				</div>
 	</li>
-	<center>
 	{{/each}}
+	<center>
 	<br><img src="/images/up.jpg">{{op4_votes}} Votes <br>
 				<input class="smallbutton add-vote"  type="button" value="Vote" align="center"/>
 	</center>

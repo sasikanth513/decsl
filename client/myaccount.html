@@ -1,5 +1,5 @@
 <template name="myaccount">
-<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{loginButtons align="right"}}</div></div>
+<div class="pad-top"><a href="{{pathFor 'index'}}"><img  align="left" src="/images/main.jpg"></a><div class="pad-top" align="right">{{> loginButtons align="right"}}</div></div>
 <h3 class="label-design-big" align=left>My Polls</h3><br>
 	<div class="cmt-avg">
 	{{> my_polls}}
@@ -8,9 +8,19 @@
 	<div class="cmt-avg">
 	{{> my_ques}}
 	</div>
-<h3 class="label-design-big" align=left>Polls from your friends</h3><br>
+<h3 class="label-design-big" align=left>Friends Activity</h3><br>
 	<div class="cmt-avg">
-	{{> fb}}
+	<table width="100%">
+	<tr>
+	<th align="left">Questions</th>
+	<th align="left">Polls</th>
+	</tr>
+	<tr>
+		<td align="left" width="50%">{{> fbques}}</td>
+		<td align="left" width="50%">{{> fbpolls}}</td>
+	</tr>
+	</table>
+	
 	</div>
 
 </template>
@@ -19,8 +29,8 @@
 <table>
 	{{#each pollscoll}}
 	<tr><td>
-	 	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</a></td>
-	 	<td><img  class="deletePoll" src="\images\delete.png" width="16px" height="16px">
+	 	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a></td>
+	 	<td><img  class="deletePoll" src="\images\delete.png" width="16px" height="16px" />
 	</td>></tr>
 	{{/each}}
 </table>
@@ -30,25 +40,44 @@
 <table>
 	{{#each quescoll}}
 	<tr><td>	
-		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a></td>
-		<td><img class="deleteQues" src="\images\delete.png" width="16px" height="16px"></td>
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</label></a></td>
+		<td><img class="deleteQues" src="\images\delete.png" width="16px" height="16px" /></td>
 	</tr>
 	{{/each}}
 </table>
 </template>
 
-<template name="fb">
-{{#each friendsPolls.data}}
+<template name="fbques">
+{{clearColl}}
+{{#each friendsQues.data}}
 	{{#if username}}
-		{{questions}}
+		<!-- {{#each questions}} -->
+			{{questions}}
+		<!-- {{/each}} -->
 	{{/if}}
 		
-    {{/each}}
+    {{/each}} 
+
+   {{#each fb_ques}}
+	<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</label></a>  
+	<label class="ownername">-{{owner_name}}</label>
+   {{/each}}
 	
+</template>
 
-{{#each userQuestions}}
-	<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\FAQ.jpg">  {{question}}</a>
-{{/each}}
-<br/><br>
+<template name="fbpolls">
+{{clearColl}}
+{{#each friendsQuess.data}}
+	{{#if username}}
+		<!-- {{#each questions}} -->
+			{{questionss}}
+		<!-- {{/each}} -->
+	{{/if}}
+		
+    {{/each}} 
 
+   {{#each fb_quess}}
+	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a>  <label class="ownername">-{{owner_name}}</label>
+   {{/each}}
+	
 </template>

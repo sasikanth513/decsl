@@ -7,6 +7,8 @@
 .ownername
 {
 	padding-left: 35%;
+	color: solid black;
+	
 }
 input#search {
 
@@ -228,6 +230,11 @@ padding-left:3%;
 .table-pop-more
 {
 padding-left:11%;
+}
+.table-pop-more small
+{
+	color: black;
+	font-size: 70%;
 }
 .comment-more
 {

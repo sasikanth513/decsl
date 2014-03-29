@@ -60,7 +60,7 @@
 
    {{#each fb_ques}}
 	<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  
-	<label class="ownername">-{{owner_name}}</label>
+	<small class="ownername">-{{owner_name}}</small>
    {{/each}}
 	
 </template>
@@ -77,7 +77,7 @@
     {{/each}} 
 
    {{#each fb_quess}}
-	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a>  <label class="ownername">-{{owner_name}}</label>
+	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a>  <small class="ownername">-{{owner_name}}</small>
    {{/each}}
 	
 </template>

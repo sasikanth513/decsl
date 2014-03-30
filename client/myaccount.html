@@ -29,9 +29,9 @@
 <table>
 	{{#each pollscoll}}
 	<tr><td>
-	 	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a></td>
-	 	<td><img  class="deletePoll" src="\images\delete.png" width="16px" height="16px" />
-	</td>></tr>
+	 	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg">   {{question}}</label></a></td>
+	 	<td><img  class="deletePoll" src="\images\delete.png" width="16px" height="16px" ></td>
+	 </tr>
 	{{/each}}
 </table>
 </template>
@@ -41,7 +41,7 @@
 	{{#each quescoll}}
 	<tr><td>	
 		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a></td>
-		<td><img class="deleteQues" src="\images\delete.png" width="16px" height="16px" /></td>
+		<td><img class="deleteQues" src="\images\delete.png" width="16px" height="16px"></td>
 	</tr>
 	{{/each}}
 </table>

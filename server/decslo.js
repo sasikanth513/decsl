@@ -278,6 +278,39 @@ Accounts.config({
 		removefbPolls:function(){
 
 			return fbpolls_coll.remove({});
+		},
+		googleContacts:function()
+		{
+
+			var opts= { email: Meteor.user().services.google.email,
+			  consumerKey: "1025870463229-63d6ob6kipvaedch2g0r0n8rrjd9o2tr.apps.googleusercontent.com",
+			  consumerSecret: "mJQ9VA5vCra8Clxr78zeTf7Y",
+			  token: Meteor.user().services.google.accessToken,
+			  refreshToken: "1/Oyw1hggki9c1R0QfpUHUeaCCyeDZDMzg3zyIGu6wF9Y"};
+			  console.log("accessToken",Meteor.user().services.google.accessToken);
+			  console.log("settings google id",Meteor.settings.knotable_google_id);
+			  console.log("consumerSecret",Meteor.settings.knotable_google_secret);
+			  console.log("refreshToken",Meteor.user().services.google.refreshToken);
+			gcontacts = new GoogleContacts(opts);
+
+			gcontacts.refreshAccessToken(opts.refreshToken, function (err, accessToken)
+			 {
+				if(err)
+				{
+				    console.log ('gcontact.refreshToken, ', err);
+				    return false;
+				}
+				else
+				{
+				    console.log ('gcontact.access token success!');
+				    gcontacts.token = accessToken;
+				    gcontacts.getContacts(function(err, contact) 
+				    {
+				      console.log(contact);
+				    })
+				    
+				}
+			 });
 		}
 		
     	});

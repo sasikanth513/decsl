@@ -43,12 +43,15 @@ Router.map(function(){
 
 Accounts.ui.config({
 	requestPermissions: {
-        facebook: ['email', 'user_friends', 'user_location', 'user_events', 
-            'friends_events', 'friends_location', 'friends_about_me',
-            'user_status', 'friends_status', 'read_friendlists'],
+        facebook: ['email', 'user_friends','read_friendlists'],
+         google:['https://www.google.com/m8/feeds']
     },
+    requestOfflineToken: {
+      google: true
+  },
   passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
+
 
 
 
@@ -1009,6 +1012,11 @@ function deleteEvent()
 				console.log(r);
 			})
 			console.log("client method returned");
+		 },
+		 googleContacts:function(){
+		 	Meteor.call('googleContacts', function (error, result) {
+		 		console.log(result);
+		 	});
 		 }
 		});
 	Template.my_polls.helpers({

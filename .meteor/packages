@@ -18,3 +18,5 @@ accounts-google
 accounts-password
 pagination-mini
 iron-router
+browser-policy
+google-contacts

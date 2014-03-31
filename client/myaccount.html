@@ -58,7 +58,7 @@
 	{{/each}} 
 
 	{{#each fb_ques}}
-		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  <br>
 		<small class="ownername">-{{owner_name}}</small>
 	{{/each}}
 
@@ -73,7 +73,7 @@
 	{{/each}}
 
 	{{#each fb_ques}}
-		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  <br>
 		<small class="ownername">-{{owner_name}}</small>
 	{{/each}}
 		
@@ -94,7 +94,8 @@
 	{{/each}} 
 
 	   {{#each fb_polls}}
-		<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a>  <small class="ownername">-{{owner_name}}</small>
+		<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a> <br>
+		 <small class="ownername">-{{owner_name}}</small>
 	   {{/each}}
 {{/if}}	
 
@@ -107,7 +108,7 @@
 	{{/each}}
 
 	{{#each fb_polls}}
-		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a> 
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a> <br>
 		<small class="ownername">-{{owner_name}}</small>
 	{{/each}}
 		

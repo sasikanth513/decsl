@@ -43,6 +43,10 @@ Accounts.config({
 					return Meteor.users.find({_id: this.userId}, {fields: {'services.google.email': 1}}); 
 				}
 			});
+		/*Meteor.publish('userData', function() {
+				  
+				  return Meteor.users.find({_id:this.userId},{fields:{'services':1}});
+				});*/
 		
 					
 // Giving delete,update and modify control to the user(if he/she is the owner of the document) on polls collection
@@ -268,8 +272,12 @@ Accounts.config({
 		isFbExists:function(arg1){
 			
 			return Meteor.users.findOne({"services.facebook.username":arg1});;
-	
-			
+		
+		},
+		isGoogleExists:function(arg1){
+
+			return Meteor.users.findOne({"services.google.email":arg1});;
+
 		},
 		removefbQues:function(){
 
@@ -281,16 +289,15 @@ Accounts.config({
 		},
 		googleContacts:function()
 		{
+			Future = Npm.require('fibers/future');
+			var fut = new Future();
 
 			var opts= { email: Meteor.user().services.google.email,
 			  consumerKey: "1025870463229-63d6ob6kipvaedch2g0r0n8rrjd9o2tr.apps.googleusercontent.com",
 			  consumerSecret: "mJQ9VA5vCra8Clxr78zeTf7Y",
 			  token: Meteor.user().services.google.accessToken,
-			  refreshToken: "1/Oyw1hggki9c1R0QfpUHUeaCCyeDZDMzg3zyIGu6wF9Y"};
-			  console.log("accessToken",Meteor.user().services.google.accessToken);
-			  console.log("settings google id",Meteor.settings.knotable_google_id);
-			  console.log("consumerSecret",Meteor.settings.knotable_google_secret);
-			  console.log("refreshToken",Meteor.user().services.google.refreshToken);
+			  refreshToken: Meteor.user().services.google.refreshToken};
+			  
 			gcontacts = new GoogleContacts(opts);
 
 			gcontacts.refreshAccessToken(opts.refreshToken, function (err, accessToken)
@@ -306,11 +313,24 @@ Accounts.config({
 				    gcontacts.token = accessToken;
 				    gcontacts.getContacts(function(err, contact) 
 				    {
-				      console.log(contact);
+				      
+				       fut.return(contact);
 				    })
 				    
 				}
 			 });
+			return fut.wait();
+			
+		},
+		loginService:function(){
+			if(Meteor.user().services.facebook)
+				{
+			 		return "facebook"; 
+				}
+				else if(Meteor.user().services.google)
+				{
+					return "google"; 
+				}
 		}
 		
     	});

@@ -72,6 +72,7 @@ Accounts.ui.config({
 			Meteor.subscribe('productmobiles');
 			Meteor.subscribe('fbquesCollection');
 			Meteor.subscribe('fbpollsCollection');
+			// Meteor.subscribe('userData');
 		});
 				
 	
@@ -1091,11 +1092,11 @@ Template.similarProducts.helpers({
 
 //end of similarProducts template events and helpers
 
-Template.fbques.events({
+Template.friendsques.events({
     
 });
 
-Template.fbques.helpers({
+Template.friendsques.helpers({
 	friendsQues: function () {
 		Meteor.call('getFriendsData', function(err, data2) { 
         		console.log(data2);
@@ -1110,7 +1111,7 @@ Template.fbques.helpers({
 		Meteor.call('isFbExists', this.username, function (error, result) {
 			if(result)
 			{
-				console.log(result);
+				
 				// console.log(Ques_Coll.find({owner:result._id}));
 				var ee=Ques_Coll.find({owner:result._id});
 				//return ee;
@@ -1142,16 +1143,67 @@ Template.fbques.helpers({
 	},
 	clearColl:function(){
 		Meteor.call('removefbQues', function (error, result) {});
+	},
+	loggedInWithFB:function(){
+		Meteor.call('loginService', 1, function (error, result) {
+			Session.set("login_service",result);
+		});
+		if(Session.equals("login_service", "facebook"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	},
+	loggedInWithGoogle:function(){
+		
+		if(Session.equals("login_service", "google"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	},
+	googleFriends:function(){
+		Meteor.call('googleContacts', function (error, result) {
+			console.log(result);
+			Session.set("GooFQList", result);
+		});
+		return Session.get("GooFQList");
+	},
+	checkStatus:function(){
+
+	Meteor.call('isGoogleExists', this.email, function (error, result) {
+		if(result)
+		{
+			console.log(result);
+			var ee=Ques_Coll.find({owner:result._id});
+			ee.forEach(function (row) {
+
+				if(row._id)
+				{
+					fbques_coll.insert({_id:row._id,question:row.question,created_at:row.created_at,owner_name:row.owner_name});
+				}
+				
+				
+			});				
+		}
+	});
+
 	}
 });				
 
 
 
-Template.fbpolls.events({
+Template.friendspolls.events({
     
 });
 
-Template.fbpolls.helpers({
+Template.friendspolls.helpers({
 	friendsQuess: function () {
 		Meteor.call('getFriendsData', function(err, data3) { 
         		console.log(data3);
@@ -1161,7 +1213,7 @@ Template.fbpolls.helpers({
         	});
 	return Session.get("fbfpolldata");
 	},
-	questionss:function(){
+	pollss:function(){
 		
 		Meteor.call('isFbExists', this.username, function (error, result) {
 			if(result)
@@ -1183,13 +1235,66 @@ Template.fbpolls.helpers({
 		});
 		
 	},
-	fb_quess:function(){
+	fb_polls:function(){
 		
 		return fbpolls_coll.find({},{sort: {created_at: -1}});
 		
 	},
 	clearColl:function(){
 		Meteor.call('removefbPolls',  function (error, result) {});
+	},
+	checkStatus:function(){
+
+	var fbf_name=this.name;
+	Meteor.call('isGoogleExists', this.email, function (error, result) {
+		if(result)
+		{
+			
+			var ee=Polls_Coll.find({owner:result._id});
+			ee.forEach(function (row) {
+
+				if(row._id)
+				{
+					fbpolls_coll.insert({_id:row._id,question:row.question,created_at:row.created_at,owner_name:row.owner_name});
+				}
+				
+				
+			});				
+		}
+	});
+
+	},
+	googleFriends:function(){
+		console.log("second template polls called")
+		Meteor.call('googleContacts', function (error, result) {
+			console.log(result);
+			Session.set("GooFPList", result);
+		});
+		return Session.get("GooFPList");
+	},
+	loggedInWithFB:function(){
+		Meteor.call('loginService', 1, function (error, result) {
+			Session.set("login_service",result);
+		});
+		if(Session.equals("login_service", "facebook"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	},
+	loggedInWithGoogle:function(){
+		
+		if(Session.equals("login_service", "google"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 });				
 

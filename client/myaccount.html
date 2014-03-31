@@ -16,8 +16,8 @@
 	<th align="left">Polls</th>
 	</tr>
 	<tr>
-		<td align="left" width="50%">{{> fbques}}</td>
-		<td align="left" width="50%">{{> fbpolls}}</td>
+		<td align="left" width="50%">{{> friendsques}}</td>
+		<td align="left" width="50%">{{> friendspolls}}</td>
 	</tr>
 	</table>
 	
@@ -47,37 +47,70 @@
 </table>
 </template>
 
-<template name="fbques">
+<template name="friendsques">
 {{clearColl}}
-{{#each friendsQues.data}}
-	{{#if username}}
-		<!-- {{#each questions}} -->
-			{{questions}}
-		<!-- {{/each}} -->
-	{{/if}}
-		
-    {{/each}} 
+{{#if loggedInWithFB}}
 
-   {{#each fb_ques}}
-	<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  
-	<small class="ownername">-{{owner_name}}</small>
-   {{/each}}
+	{{#each friendsQues.data}}
+		{{#if username}}
+			{{questions}}
+		{{/if}}
+	{{/each}} 
+
+	{{#each fb_ques}}
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  
+		<small class="ownername">-{{owner_name}}</small>
+	{{/each}}
+
+{{/if}}
+
+{{#if loggedInWithGoogle}}
 	
+	{{#each googleFriends}}
+		
+		{{checkStatus}}
+		
+	{{/each}}
+
+	{{#each fb_ques}}
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a>  
+		<small class="ownername">-{{owner_name}}</small>
+	{{/each}}
+		
+{{/if}}
+
 </template>
 
-<template name="fbpolls">
+<template name="friendspolls">
 {{clearColl}}
-{{#each friendsQuess.data}}
-	{{#if username}}
-		<!-- {{#each questions}} -->
-			{{questionss}}
-		<!-- {{/each}} -->
-	{{/if}}
-		
-    {{/each}} 
+{{#if loggedInWithFB}}
+	{{#each friendsQuess.data}}
+		{{#if username}}
+			<!-- {{#each questions}} -->
+				{{pollss}}
+			<!-- {{/each}} -->
+		{{/if}}
+			
+	{{/each}} 
 
-   {{#each fb_quess}}
-	<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a>  <small class="ownername">-{{owner_name}}</small>
-   {{/each}}
+	   {{#each fb_polls}}
+		<a href="{{pathFor 'pollpage' }}"><label class="label-design" name="{{_id}}" ><img src="\images\polls.jpg" />   {{question}}</label></a>  <small class="ownername">-{{owner_name}}</small>
+	   {{/each}}
+{{/if}}	
+
+{{#if loggedInWithGoogle}}
 	
+	{{#each googleFriends}}
+		
+		{{checkStatus}}
+		
+	{{/each}}
+
+	{{#each fb_polls}}
+		<a href="{{pathFor 'quespage'}}"><label class="label-design" name="{{_id}}" ><img src="\images\que.png">  {{question}}</label></a> 
+		<small class="ownername">-{{owner_name}}</small>
+	{{/each}}
+		
+{{/if}}
+
 </template>

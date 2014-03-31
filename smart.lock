@@ -3,7 +3,6 @@
   "dependencies": {
     "basePackages": {
       "pagination-mini": {},
-      "accounts-ui-bootstrap-3": {},
       "iron-router": {},
       "google-contacts": {}
     },
@@ -12,11 +11,6 @@
         "git": "https://github.com/huyinghuan/meteor-pagination-mini.git",
         "tag": "v0.0.2",
         "commit": "f07ab5ff58ae9d71ae4407cb3198d078a96750b0"
-      },
-      "accounts-ui-bootstrap-3": {
-        "git": "https://github.com/mangasocial/meteor-accounts-ui-bootstrap-3.git",
-        "tag": "v0.3.0-1",
-        "commit": "93ffa5d0e325dc7026de89f6d90c178fa04bdd3a"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",

@@ -12,11 +12,10 @@ jquery-ui
 google
 npm
 require
-accounts-ui
 accounts-facebook
 accounts-google
 accounts-password
 pagination-mini
 iron-router
-browser-policy
 google-contacts
+accounts-ui

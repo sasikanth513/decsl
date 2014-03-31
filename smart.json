@@ -1,7 +1,6 @@
 {
   "packages": {
     "pagination-mini": {},
-    "accounts-ui-bootstrap-3": {},
     "iron-router": {},
     "google-contacts": {}
   }

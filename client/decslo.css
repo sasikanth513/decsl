@@ -29,6 +29,10 @@ input#search {
 max-width: 0px;
 
 }
+.homebuttons
+{
+	 display: inline-block;
+}
 input#autocomplete {
     background: url(search-white.png) no-repeat 10px 6px #fcfcfc;
     border: 1px solid #d1d1d1;
@@ -226,7 +230,20 @@ padding-right:3%;
 {
 padding-left:3%;
 }
-
+.thumb
+{
+	height:280px;
+	width:100%;
+	max-width:216px;
+	min-width: 216px;
+	border:2px solid black;
+}
+.thumb1
+{
+	width:100%;
+	max-width:216px;
+	min-width: 216px;
+}
 .table-pop-more
 {
 padding-left:11%;

@@ -2,6 +2,10 @@
   "packages": {
     "pagination-mini": {},
     "iron-router": {},
-    "google-contacts": {}
+    "google-contacts": {},
+    "bootstrap-3": {},
+    "jquery-ui-bootstrap": {},
+    "npm": {},
+    "require": {}
   }
 }

@@ -32,10 +32,10 @@
 		<div class="poll-options" id="menuitems">
 			<ul>
 			<!-- product thumbnails -->
-	<li><input type="text" class="pad-top" id="{{id_op1}}"  value="{{product_title1}}" readonly/><br>{{> product_thumbnail}}</li>
-	<li><input type="text" class="pad-top" id="{{id_op2}}"  value="{{product_title2}}" readonly/><br>{{> product_thumbnail_two}}</li>
-	<li><input type="text" class="pad-top" id="{{id_op3}}"  value="{{product_title3}}" readonly/><br>{{> product_thumbnail_three}}</li>
-	<li><input type="text" class="pad-top" id="{{id_op4}}"  value="{{product_title4}}" readonly/><br>{{> product_thumbnail_four}}</li>
+	<li><input type="text" class="pad-top thumb1" id="{{id_op1}}"  value="{{product_title1}}" readonly/><br><br>{{> product_thumbnail}}</li>
+	<li><input type="text" class="pad-top thumb1" id="{{id_op2}}"  value="{{product_title2}}" readonly/><br><br>{{> product_thumbnail_two}}</li>
+	<li><input type="text" class="pad-top thumb1" id="{{id_op3}}"  value="{{product_title3}}" readonly/><br><br>{{> product_thumbnail_three}}</li>
+	<li><input type="text" class="pad-top tumb1" id="{{id_op4}}"  value="{{product_title4}}" readonly/><br><br>{{> product_thumbnail_four}}</li>
 					<span></span>
 			
 			</ul>
@@ -53,7 +53,7 @@
 	{{product1}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:100%;height:300px;max-width:216px;border:2px solid black" width="100%">
+	<li class="thumb">
 
 				<b>Title:</b>{{title}}<br>
 				<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb1_image"><br>
@@ -79,7 +79,7 @@
 	{{product2}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:100%;height:300px;max-width:216px;border:2px solid black" width="100%">
+	<li class="thumb">
 
 					<b>Title:</b>{{title}}<br>
 					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb2_image"><br>
@@ -103,7 +103,7 @@
 	{{product3}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:100%;height:300px;max-width:216px;border:2px solid black" width="100%">
+	<li class="thumb">
 
 					<b>Title:</b>{{title}}<br>
 					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb3_image"><br>
@@ -126,7 +126,7 @@
 	{{product4}}
 	<!-- from the session variable ge the productId and find the corresponding product and find it and display title,thumbnail image,price and specifications in thumbnail -->
 	{{#each product_res.skimlinksProductAPI.products}}
-	<li STYLE="width:100%;height:300px;max-width:216px;border:2px solid black" width="100%">
+	<li class="thumb">
 
 					<b>Title:</b>{{title}}<br>
 					<img width="60px" height="60px" src={{images.imageThumb1Url}} align="center" id="product_thumb4_image"><br>

@@ -207,14 +207,14 @@ Accounts.config({
 		updatePosts3: function(arg1,arg2,arg3) 
 		{
 				
-				var u_name=Meteor.user().profile.name;
+				// var u_name=Meteor.user().profile.name;
 				return Polls_Coll.update({_id:arg1,"option3.pd":arg2},{$push:{"option3.$.ids":arg3}});	
 
       		},
 		updatePosts4: function(arg1,arg2,arg3) 
 		{
 				
-				var u_name=Meteor.user().profile.name;
+				// var u_name=Meteor.user().profile.name;
 				return Polls_Coll.update({_id:arg1,"option4.pd":arg2},{$push:{"option4.$.ids":arg3}});	
 
       		},

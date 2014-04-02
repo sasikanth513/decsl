@@ -17,5 +17,6 @@ accounts-password
 pagination-mini
 iron-router
 google-contacts
-accounts-ui
 bootstrap-3
+accounts-ui
+nprogress

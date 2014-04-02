@@ -6,6 +6,7 @@
     "bootstrap-3": {},
     "jquery-ui-bootstrap": {},
     "npm": {},
-    "require": {}
+    "require": {},
+    "nprogress": {}
   }
 }

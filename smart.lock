@@ -8,7 +8,8 @@
       "bootstrap-3": {},
       "jquery-ui-bootstrap": {},
       "npm": {},
-      "require": {}
+      "require": {},
+      "nprogress": {}
     },
     "packages": {
       "pagination-mini": {
@@ -45,6 +46,11 @@
         "git": "https://github.com/tomconnors/meteor-require.git",
         "tag": "v0.1.0",
         "commit": "b9c5a87e9f92019cca882234086b7d32719f67e2"
+      },
+      "nprogress": {
+        "git": "https://github.com/zhouzhuojie/meteor-nprogress.git",
+        "tag": "v0.0.4",
+        "commit": "8333206b751a24fac1fbd1b03fa37621bcefe50c"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

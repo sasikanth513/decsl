@@ -33,6 +33,10 @@ max-width: 0px;
 {
 	 display: inline-block;
 }
+.buttons
+{
+	margin-top: 10px;
+}
 input#autocomplete {
     background: url(search-white.png) no-repeat 10px 6px #fcfcfc;
     border: 1px solid #d1d1d1;
@@ -237,6 +241,7 @@ padding-left:3%;
 	max-width:216px;
 	min-width: 216px;
 	border:2px solid black;
+	/*position:absolute;*/
 }
 .thumb1
 {

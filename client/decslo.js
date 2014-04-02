@@ -13,8 +13,13 @@ Router.map(function(){
 		this.route('polls', {path:'/polls/',
 		fastRender: true
 	});
-		this.route('myaccount', {path:'/myaccount/',
-			fastRender: true
+	this.route('myaccount', {path:'/myaccount/',
+	/*action:function(){
+		        NProgress.start();
+		        NProgress.done();
+		        
+		    },*/
+	fastRender: true
 	});
 	this.route('pollpage', {path:'/pollpage/:_id',
 		 data:  function(){
@@ -39,6 +44,10 @@ Router.map(function(){
 	this.route('product', {path:'/product/:productId',
 		fastRender: true
 	});
+});
+
+Router.configure({
+  loadingTemplate: 'loadingTemplate'
 });
 
 Accounts.ui.config({
@@ -74,8 +83,8 @@ Accounts.ui.config({
 			Meteor.subscribe('fbpollsCollection');
 			// Meteor.subscribe('userData');
 		});
-				
-	
+		
+		
 	});
 		
 function deleteEvent()
@@ -345,6 +354,8 @@ function deleteEvent()
 		{
 			console.log("focus out event");
 			var op1_value=document.getElementById("op1").value;
+			if(op1_value!=="" || op1_value!== " ")
+			{
 			Meteor.call("apiresult",op1_value,0,10,function(e,r){
 				console.log("taking back the result");
 				console.log(r);
@@ -356,12 +367,15 @@ function deleteEvent()
 				Session.set("product1",pro1);
 
 			});
+			}
 
 		},
 		'focusout input.pad-top2':function()
 		{
 			console.log("focus out event");
 			var op1_value=document.getElementById("op2").value;
+			if(op1_value!=="" || op1_value!== " ")
+			{
 			Meteor.call("apiresult",op1_value,0,10,function(e,r){
 				console.log("taking back the result");
 				console.log(r);
@@ -373,12 +387,15 @@ function deleteEvent()
 				Session.set("product2",pro2);
 
 			});
+			}
 
 		},
 		'focusout input.pad-top3':function()
 		{
 			console.log("focus out event");
 			var op1_value=document.getElementById("op3").value;
+			if(op1_value!=="" || op1_value!== " ")
+			{
 			Meteor.call("apiresult",op1_value,0,10,function(e,r){
 				console.log("taking back the result");
 				console.log(r);
@@ -389,12 +406,15 @@ function deleteEvent()
 				var pro3=r.skimlinksProductAPI.products[0].productId;
 				Session.set("product3",pro3);
 			});
+		}
 
 		},
 		'focusout input.pad-top4':function()
 		{
 			console.log("focus out event");
 			var op1_value=document.getElementById("op4").value;
+			if(op1_value!=="" || op1_value!== " ")
+			{
 			Meteor.call("apiresult",op1_value,0,10,function(e,r){
 				console.log("taking back the result");
 				console.log(r);
@@ -405,7 +425,7 @@ function deleteEvent()
 				var pro4=r.skimlinksProductAPI.products[0].productId;
 				Session.set("product4",pro4);
 			});
-
+		}
 		}
 	
 		});

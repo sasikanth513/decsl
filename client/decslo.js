@@ -14,11 +14,6 @@ Router.map(function(){
 		fastRender: true
 	});
 	this.route('myaccount', {path:'/myaccount/',
-	/*action:function(){
-		        NProgress.start();
-		        NProgress.done();
-		        
-		    },*/
 	fastRender: true
 	});
 	this.route('pollpage', {path:'/pollpage/:_id',
@@ -103,9 +98,9 @@ function deleteEvent()
 				requestPermisssions: ['user','public_repo']
 			},function(err){
 				if(err){
-					//error handling
+					
 				}else{
-					//show alert
+					
 				}
 
 			});
@@ -117,9 +112,9 @@ function deleteEvent()
 		"click #logout":function(e,tmpl){
 			Meteor.logout(function(err){
 				if(err){
-					//show error message
+					
 				}else{
-					//show alert
+					
 				}
 			});
 		}
